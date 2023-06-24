@@ -1,38 +1,45 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.Menu-bar{
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.login{
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.64);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.left-aside{
+  background: rgba(238, 174, 202, 0.645);
+  background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(255,109,0,0.7370892018779343) 100%);
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.spinner{
+  /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+  animation-name: rotate;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+  animation-iteration-count: infinite;
+  
+}
+#spinner{
+  /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+  animation-name: rotate;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+  animation-iteration-count: infinite;
+  display: inline-block;
+  
+  
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@keyframes rotate {
+  100%{
+    transform: rotate(360deg)
   }
 }
