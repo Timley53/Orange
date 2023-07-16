@@ -9,20 +9,30 @@ import { Route,Routes, createBrowserRouter, createRoutesFromElements, RouterProv
 import AppLayout from './components/AppLayout';
 import PrivateRoute from './components/signIn/PrivateRoute';
 
+//components
+import Expenses from './components/Pages/Expenses/Expenses';
+import Home from './components/Pages/Home/Home';
+import Saving from './components/Pages/Savings/Saving';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
-      <Route path='/' element={<AppLayout/>}>
+      <Route path='/'  element={<AppLayout/>}>
 
         <Route index element={<SignIn/>}/>
 
 
-        <Route path='/dashboard' element={ <PrivateRoute>
-          <Dashboard/>
-        </PrivateRoute>}/>
+        <Route path='/dashboard' element={<Dashboard/>}>
+    <Route index element={<Home/>}/>
 
+    <Route path='expenses' element={<Expenses/>}> 
+    
+    </Route>
 
+    <Route path='savings' element={<Saving/>}>
 
-        
+    </Route>
+
+      </Route>//dashboard
 
       </Route>
   )

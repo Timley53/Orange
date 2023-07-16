@@ -1,10 +1,10 @@
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiFillEyeInvisible } from 'react-icons/ai'
 import { MdVisibility } from 'react-icons/md'
 import { auth } from '../../resources/firebase'
-import { login } from '../../store/user/userSlice'
-import { useDispatch } from 'react-redux'
+import { logIn, login } from '../../store/user/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Inputfield from './Inputfield'
 
@@ -17,22 +17,43 @@ function Login() {
     const [showSpinner, setShowSpinner] = useState(false)
     const [errorMessage, setShowErrorMessage] = useState('')
 
+    const isAuthorized = useSelector((state)=> state.user.loggedIn)
+
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    ()
+
+
+    // onAuthStateChanged(auth,(user)=>{
+    //   if(user){
+    //     navigate('/dashboard')        
+    //   }
+    // })
+
+
+
 
     // const [first, setfirst] = useState(second)
 
     const loginUser = async (userDetails)=>{
       const {email, password} = userDetails
 
+        dispatch(logIn({
+          email,
+          password
+        }))
 
-      try{
-        const userCredentials = await signInWithEmailAndPassword(auth, email, password )
-        setShowSpinner(false)
-        console.log(userCredentials);
-        console.log(userCredentials);
-       dispatch(login({loggedIn:true}))
+
+
+     
+      // try{
+      //   const userCredentials = await signInWithEmailAndPassword(auth, email, password )
+
+
+      //   setShowSpinner(false)
+      //   console.log(userCredentials);
+      //   // console.log(userCredentials);
+      //  dispatch(login({loggedIn:true}))
        
       //  onAuthStateChanged(auth,(user)=>{
       //   if(user){
@@ -41,17 +62,28 @@ function Login() {
       //   }
       // })
       
-      }catch(err){
+      // }catch(err){
 
-      dispatch(login({loggedIn:false}))
-        setShowErrorMessage(err.message.split(' ').slice(1).join(' '))
+      // dispatch(login({loggedIn:false}))
+      // setShowSpinner(false)
 
-      }
+      //   setShowErrorMessage(err.message.split(' ').slice(1).join(' '))
+
+      // }
 
 
       
     }
 
+    useEffect(()=>{
+
+      onAuthStateChanged(auth,(user)=>{
+  if(user){
+    navigate('/dashboard')        
+  }
+})
+
+    },[isAuthorized])
 
     const submitForm = (e)=>{
       e.preventDefault()
