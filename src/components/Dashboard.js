@@ -11,6 +11,9 @@ import { openCloseMenu } from '../store/ui/uiStateSlice'
 import { getCollection } from '../store/user/userDataSlice'
 import { useWatch } from 'rc-field-form'
 import HomeHeader from './Pages/Home/HomeHeader'
+import { listenToUserData, updateData } from '../store/user/userDataSlice'
+ import { database } from '../resources/firebase'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 
 
@@ -23,10 +26,12 @@ function Dashboard() {
 
   const error = useSelector(state => state.userData.error)
 
+  const docId = useSelector(state => state.userData.DocumentId)
+  // const unsubscribe = useSelector(state => state.userData.unsubscribe)
+
 
   const userDataLoading = useSelector(state => state.userData.loading)
   
-  const userData = useSelector(state => state.userData.userData)
 
 
 
@@ -54,10 +59,36 @@ function Dashboard() {
    },[])
 
 
+   useEffect(()=>{
 
-   console.log('loading', userDataLoading);
-   console.log(userData);
-   console.log(error);
+    // listenToUserData(dispatch({
+    //   userId:colID,
+    //   docId
+    // }))
+
+
+    const docRef = doc(database,colID,docId)
+    
+        const unsubscribe = onSnapshot(docRef,(snapShot) => {
+    
+            
+                if(snapShot.exists()){
+                    const documentData = snapShot.data()
+                    console.log(documentData, 'snapshot');
+                    dispatch(updateData(documentData))
+                  }
+                })
+
+
+
+    return ()=> unsubscribe()   
+
+   },[])
+
+
+  //  console.log('loading', userDataLoading);
+  //  console.log(userData);
+  //  console.log(error);
 
   const signOutUser = () =>{
     signOut(auth).then(()=> console.log('sign out ')).catch(err => console.log(err.message))

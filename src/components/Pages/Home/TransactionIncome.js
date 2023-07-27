@@ -7,8 +7,8 @@ function HomeIncomeAndSavings() {
 
 
   return (
-    <div className='w-[30%] md:w-[40%] sm:w-[99%] flex flex-col text-sm rounded-md   sm:mr-0'>
-        <header className='relative w-[100%] rounded-t-md flex bg-slate-100' onClick={()=> setShowSavings(!showSavings)} >
+    <div className='w-[30%] md:w-[30%] sm:w-[99%] flex flex-col text-sm rounded-md my-4 bg-slate-100 shadow-md sm:mr-0'>
+        <header className='relative w-[100%] rounded-t-md flex bg-slate-200' onClick={()=> setShowSavings(!showSavings)} >
             <button  className={`w-[50%]   p-3 ${showSavings ? 'text-orange-500': ''}`}>
                 Savings 
                 </button>

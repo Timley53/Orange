@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom'
 
 function HomeHistory() {
   return (
-    <div className='w-[35%] md:w-[50%] sm:w-[99%] mx-3 '>
-        <header className='text-sm flex justify-between p-2 bg-gray-200'>
+    <div className='w-[35%] md:w-[30%] sm:w-[99%] mx-3 bg-gray-100'>
+        <header className='text-sm flex justify-between p-2 bg-gray-300'>
 
             <span>Last 5 Transaction</span>
 
@@ -12,7 +12,7 @@ function HomeHistory() {
             <NavLink className={`text-sm text-orange-600 hover:text-gray-500 transition-all`}>View all</NavLink >
         </header>
 
-        <div className="transactions w-full flex flex-col ">
+        <div className="transactions w-full flex flex-col overflow-y-scroll overflow-edit h-[400px]">
 
           
 
@@ -28,6 +28,7 @@ function HomeHistory() {
 
 export default HomeHistory
 
+
 export const HomeHistoryArticle = () =>{
 
     return(
@@ -37,17 +38,17 @@ export const HomeHistoryArticle = () =>{
         </span>
 
         <div className="w-[50%] flex flex-col ml-4">
-            <span className='text-base'>
+            <span className='text-[14px]'>
 Transport
             </span>
 
-<small className='text-xs text-gray-500'>
+<small className='text-[11px] text-gray-500 my-1'>
 12/12/2020
 </small>
         </div>
 
 
-        <span className=''>
+        <span className='text-sm'>
            -$200
         </span>
     </article>

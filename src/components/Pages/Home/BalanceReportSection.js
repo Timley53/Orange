@@ -9,7 +9,7 @@ import { BsArrowsExpand } from 'react-icons/bs'
 
 function BalanceReportSection() {
 
-    const [showReport, setShowReport] = useState(true)
+    const [showReport, setShowReport] = useState(false)
 
 
   return (
@@ -27,7 +27,11 @@ function BalanceReportSection() {
   <span className='ml-3'>Monthly Report</span>
 
   <button className='text-orange-500 text-lg' onClick={()=> setShowReport(!showReport)}>
-   {showReport && <MdExpand/> || !showReport &&  <BsArrowsExpand/> } 
+
+   {
+   showReport && <MdExpand/> || !showReport &&  <BsArrowsExpand/> 
+   } 
+
   </button>
   
   </span>

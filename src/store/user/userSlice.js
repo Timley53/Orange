@@ -31,7 +31,7 @@ export const logIn = createAsyncThunk('user/login',
         const userCredentials = await signInWithEmailAndPassword(auth, email, password ) 
 
 
-        console.log(userCredentials);
+        // console.log(userCredentials);
       
        return userCredentials.user.uid
 
@@ -50,9 +50,11 @@ export const userSignUp = createAsyncThunk('user/signUp',
 
         
         try{
-            const userCredentials = await createUserWithEmailAndPassword(auth, email,password)
+         const userCredentials = await createUserWithEmailAndPassword(auth, email,password)
 
-            return {uId:userCredentials.user.uid, fullname, email}
+         return {
+             uId:userCredentials.user.uid, fullname, email 
+        }
 
             
 

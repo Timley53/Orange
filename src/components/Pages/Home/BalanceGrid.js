@@ -2,9 +2,9 @@ import React from 'react'
 
 function BalanceGrid() {
   return (
-    <div className='w-[70%] border-2  md:w-[65%] sm:w-[100%]  p-2 balance-grid grid'>
+    <div className='w-[70%] md:w-[65%] sm:w-[100%]  p-2 balance-grid grid'>
 
-    <article className='bg-balance-monthly  h-36 text-white  rounded-md p-3 flex flex-col'>
+    <article className='bg-balance-monthly  h-36  text-white shadow-md rounded-md p-3 flex flex-col'>
 
       <article className='flex flex-col'>
 
