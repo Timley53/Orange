@@ -39,26 +39,26 @@ export const PieData = [
     },
     expenses:[],
     categories:[
-        {
-            name:'food',
-            budget: 3000,
-            value: [], 
-        },
-        {
-            name:'entertaiment',
-            budget: 3000,
-            value: [],     
-           },
-        {
-            name:'utility',
-            budget: 3000,
-            value: [],            
-        },
-        {
-            name:'transport',
-            budget: 3000,
-            value: [],            
-        },
+      {
+        name:'food',
+        budget: 3000,
+        value: [-100,-300,-123,-145, -24], 
+    },
+    {
+        name:'entertaiment',
+        budget: 3000,
+        value: [-10,-30,-23,-14, -24],     
+       },
+    {
+        name:'utility',
+        budget: 3000,
+        value: [-12,-5,-12,-15, -94],            
+    },
+    {
+        name:'transport',
+        budget: 3000,
+        value: [-199,-1300,-2123,-3145, -424],            
+    },
     ],
     savings:{
         goals:[

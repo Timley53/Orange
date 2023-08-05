@@ -4,13 +4,13 @@ import {VictoryPieProps} from 'victory'
 
 
 
-function ChartTest(){
+function ChartTest({ChartData, sumTotal}){
 
 
-
+console.log(ChartData)
 
       return (
-        <div className=" h-[170px] md:h-[190px] ">
+        <div className=" h-[auto] md:h-[auto] ">
             
         <svg viewBox="0 0 400 400" className=' h-auto w-[100%]'>
           <VictoryPie
@@ -18,10 +18,18 @@ function ChartTest(){
          
 
             width={400} height={250}
-            colorScale={["tomato", "orange", "gold", "cyan", "navy" ]}
-            data={[
-              { x: 1, y: 120 }, { x: 2, y: 150 }, { x: 'food', y: 55 }, { x: 4, y: 20 },{ x: 5, y: 10 }
-            ]}
+            colorScale={["tomato", "orange", "gold", "cyan", "navy" ]} 
+            data=
+            
+            {
+              
+              ChartData
+          //     [
+          //     { x: 1, y: 120 }, { x: 2, y: 150 }, { x: 'food', y: 55 }, { x: 4, y: 20 },{ x: 5, y: 10 }
+            
+          // ]
+        
+        }
             innerRadius={48} labelRadius={80}
             style={{ labels: { fontSize: 16, fill: "black" } }}
           />
@@ -29,7 +37,7 @@ function ChartTest(){
             textAnchor="middle"
             style={{ fontSize: 20 }}
             x={200} y={120}
-            text="$1,800"
+            text={`${sumTotal}`}
           />
 
 

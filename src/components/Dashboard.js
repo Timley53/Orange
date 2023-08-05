@@ -59,31 +59,31 @@ function Dashboard() {
    },[])
 
 
-   useEffect(()=>{
+  //  useEffect(()=>{
 
-    // listenToUserData(dispatch({
-    //   userId:colID,
-    //   docId
-    // }))
+  //   // listenToUserData(dispatch({
+  //   //   userId:colID,
+  //   //   docId
+  //   // }))
 
 
-    const docRef = doc(database,colID,docId)
+  //   const docRef = doc(database,colID,docId)
     
-        const unsubscribe = onSnapshot(docRef,(snapShot) => {
+  //       const unsubscribe = onSnapshot(docRef,(snapShot) => {
     
             
-                if(snapShot.exists()){
-                    const documentData = snapShot.data()
-                    console.log(documentData, 'snapshot');
-                    dispatch(updateData(documentData))
-                  }
-                })
+  //               if(snapShot.exists()){
+  //                   const documentData = snapShot.data()
+  //                   console.log(documentData, 'snapshot');
+  //                   dispatch(updateData(documentData))
+  //                 }
+  //               })
 
 
 
-    return ()=> unsubscribe()   
+  //   return ()=> unsubscribe()   
 
-   },[])
+  //  },[])
 
 
   //  console.log('loading', userDataLoading);
@@ -94,6 +94,7 @@ function Dashboard() {
     signOut(auth).then(()=> console.log('sign out ')).catch(err => console.log(err.message))
   }
 
+  // signOutUser()
 
 
 

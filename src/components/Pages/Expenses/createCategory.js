@@ -1,9 +1,13 @@
 import React from 'react'
-import { MdAdd } from "react-icons/md"
+import { MdAdd, MdExpand, MdListAlt, MdPieChartOutline } from "react-icons/md"
 import {AiOutlineAppstoreAdd } from 'react-icons/ai'
 
 
-function CreateCategory() {
+
+function CreateCategory({showChart, setShowChart}) {
+
+
+
   return (
     <div className='flex w-[98%]  justify-between items-center my-1'>
 
@@ -11,10 +15,19 @@ function CreateCategory() {
       Categories
     </div>
 
-    <button className='flex items-center bg-orange-500 p-1 rounded-md text-xs text-white hover:bg-transparent hover:text-black transition-all'>
+    {/* <button className='flex items-center bg-orange-500 p-1 rounded-md text-xs text-white hover:bg-transparent hover:text-black transition-all'>
 
-  <AiOutlineAppstoreAdd className='text-2xl'/>
-   </button>
+   <AiOutlineAppstoreAdd className='text-2xl'/> 
+
+  </button> */}
+
+  <button className='bottom-4  right-4 text-2xl text-orange-500 hover:text-black transition-all'
+      
+      onClick={()=>setShowChart(!showChart)}
+      >
+        
+       {showChart &&  <MdListAlt/>  || !showChart &&  <MdPieChartOutline/>}
+        </button> 
 
   </div>
 )

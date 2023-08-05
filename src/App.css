@@ -75,7 +75,11 @@ body{
   grid-template-columns: repeat(auto-fit, 190px);
   gap: 10px;
 }
-
+.cat-grid-art{
+  
+  grid-template-columns: repeat(auto-fit, 40%);
+  gap: 1rem;
+}
 .bg-balance-monthly{
   background: rgb(255,96,0);
 
@@ -90,6 +94,10 @@ body{
   
   background: rgb(25,22,15);
   background: linear-gradient(323deg, rgba(25,22,15,0.771889400921659) 0%, rgba(255,71,0,0.8225806451612903) 100%);
+}
+
+.notes{
+  display: none;
 }
 
 .last{
@@ -120,6 +128,8 @@ body{
   transition: all .5s;
 }
 
+
+
 @media all and (max-width:1124px){
 /* 
   .balance-grid{
@@ -136,7 +146,22 @@ body{
     grid-template-columns: repeat(auto-fit, 48%);
     gap: 12px;
   }
+  
+  .note-parent:hover .notes{
+    display:block;
+    position: absolute;
+    left: -11rem;
+    top: -2rem;
+    height: auto;
+    font-size: small;
+    background-color: gray;
+    border-radius: .1rem;
+    padding: .4rem;
+    /* border-top-right-radius: -2rem; */
+    /* width: ; */
+  }
 }
+
 
 .second{
   grid-auto-flow: column;

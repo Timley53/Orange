@@ -1,20 +1,31 @@
 import React from 'react'
 import { useState } from 'react'
-import { MdExpand } from 'react-icons/md'
 import {CategoryList} from './ExpenseCat/CategoryList'
 import CategoryVisual from './ExpenseCat/CategoryVisual'
+import CreateCategory from './createCategory'
 
 
 
 
 function CategoryGrids() {
-    const [showMore, setShowMore] = useState(true)
+  const [showChart, setShowChart] = useState(false)
+
 
   return (
-    <div className='flex relative w-[98%] border-2 rounded-md my-2'>
+
+
+    <div className='h-auto w-[100%] p-2  sm:p-0'>
+
+
+      <CreateCategory showChart={showChart} setShowChart={setShowChart}/>
+
+
+    <div className='flex relative w-[98%]  rounded-md sm:rounded-none sm:w-[100%] my-2'>
    
-    <CategoryList/>
-    <CategoryVisual/>
+    
+   
+
+    {showChart &&  <CategoryVisual/> || <CategoryList/>  }
 
 
 
@@ -22,13 +33,9 @@ function CategoryGrids() {
 
 
 
-      <button className='absolute bottom-1  right-2 text-2xl text-orange-500 hover:text-black transition-all'
-      
-      onClick={()=>setShowMore(!showMore)}
-      >
-         <MdExpand/>
-        </button> 
+     
     </div>
+        </div>
   )
 }
 
