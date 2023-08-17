@@ -13,15 +13,21 @@ function BalanceReportSection() {
 
 
   return (
-<section className='w-full flex items-start  md:items-center gap-2 flex-wrap  p-2'>
+<section className='w-[100%] overflow-clip flex items-start  md:items-center gap-2 flex-wrap  p-2'>
 
 
   
 
 <BalanceGrid/>
+<CategoryReport/>
 
 
- <div className="reports  w-[300px] h-auto md:h-auto flex flex-col items-center  bg-[#f3f2ef49] rounded-md p-1  ">
+
+{/* 
+
+
+
+ <div className="reports  w-[280px] h-auto md:h-[250px] flex flex-col items-center  bg-[#f3f2ef49] rounded-md p-1 border-2 ">
  <span className=' w-full flex justify-between'>
   
   <span className='ml-3'>Monthly Report</span>
@@ -36,10 +42,14 @@ function BalanceReportSection() {
   
   </span>
 
-{  /* <ReportPie/>*/ <ChartTest/>}
 
 
-{showReport && <div className='text-sm w-[100%]'>
+  //   <ReportPie/> <ChartTest/>  
+
+
+  
+
+showReport && <div className='text-sm w-[100%]'>
 <small>
 
   1.food. 2.transport
@@ -48,13 +58,14 @@ function BalanceReportSection() {
   1.food. 2.transport
 </small>
         </div>
-         }
+        
+         
 
 
 
 
 
-{/* <div className=" ">
+ <div className=" ">
 
 <small >
 <span className='font-bold'>Total Overall Expense:</span> $1,800.00
@@ -66,11 +77,26 @@ function BalanceReportSection() {
     onClick={()=> setShowReport(!showReport)}
 >{showReport ? 'Hide report': 'Show report'}</button>
 
-</div> */}
+</div> 
 
 
- </div>
+ </div> 
+  */}
+
 </section>  )
 }
 
 export default BalanceReportSection
+
+
+
+
+function CategoryReport(){
+
+  return(
+    <div className="w-[30%] md:w-[35%] sm:hidden  bg-gray-200 rounded-md border-2 h-[160px] md:h-[270px]">
+
+
+    </div>
+  )
+}

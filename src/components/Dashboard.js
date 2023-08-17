@@ -4,11 +4,11 @@ import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from '../resources/firebase'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../store/user/userSlice'
+import { login,logOut } from '../store/user/userSlice'
 
 import { Outlet } from 'react-router-dom'
 import { openCloseMenu } from '../store/ui/uiStateSlice'
-import { getCollection } from '../store/user/userDataSlice'
+import { getDocument } from '../store/user/userDataSlice'
 import { useWatch } from 'rc-field-form'
 import HomeHeader from './Pages/Home/HomeHeader'
 import { listenToUserData, updateData } from '../store/user/userDataSlice'
@@ -22,11 +22,11 @@ function Dashboard() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isAuthorized = useSelector((state)=> state.user.loggedIn)
-  const colID = useSelector(state => state.user.uId)
+  const docID = useSelector(state => state.user.uId)
 
   const error = useSelector(state => state.userData.error)
 
-  const docId = useSelector(state => state.userData.DocumentId)
+  // const docId = useSelector(state => state.userData.DocumentId)
   // const unsubscribe = useSelector(state => state.userData.unsubscribe)
 
 
@@ -55,7 +55,7 @@ function Dashboard() {
    },[isAuthorized])
 
    useEffect(()=>{
-    dispatch(getCollection({colID}))
+    dispatch(getDocument({docID}))
    },[])
 
 
@@ -91,6 +91,7 @@ function Dashboard() {
   //  console.log(error);
 
   const signOutUser = () =>{
+    dispatch(logOut())
     signOut(auth).then(()=> console.log('sign out ')).catch(err => console.log(err.message))
   }
 

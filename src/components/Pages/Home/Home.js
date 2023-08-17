@@ -6,6 +6,7 @@ import HomeIncomeAndSavings from './TransactionIncome'
 import HomeCategories from './HomeCategories'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNewExpense, updateData } from '../../../store/user/userDataSlice'
+import {MdAdd} from 'react-icons/md'
 
 
 function Home() {
@@ -34,10 +35,9 @@ const userNameSplit = (name)=>{
   return name?.split(' ')[0]
 }
 
-
   
   return (
-    <div className='w-full '>
+    <div className='w-full overflow-clip h-[100%]  overflow-y-scroll relative'>
 
     <article className='md:order-2 mt-4 md:mt-20 px-5  p-2'>
         <h2 className='text-lg leading-3'>Hi,  
@@ -62,6 +62,12 @@ const userNameSplit = (name)=>{
 
       <BalanceReportSection/>
 
+
+          <button className='fixed right-12 bg-emerald-500 text-white p-3 z-10 bottom-10 sm:bottom-16  rounded-full text-2xl hover:border-2 
+          hover:border-emerald-500 hover:bg-transparent hover:text-emerald-500 transition-all'>
+          <MdAdd/>
+            
+          </button>
 
     <section className='w-[99%] p-2 flex flex-wrap '>
 

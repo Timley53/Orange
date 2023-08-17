@@ -72,13 +72,7 @@ function SignUp() {
   // console.log(loggedIn)
 
   useEffect(()=>{
-    if(signedIn && !userFileCreated){
-      dispatch(createUserDatabase({
-        Id:id,
-        fullname:userFullname,
-        email:userEmail,
-      }))
-    }
+  
   
     if(signedIn && userFileCreated){
       onAuthStateChanged(auth,(user)=>{
@@ -110,21 +104,17 @@ function SignUp() {
 <>
 
 {
-  signedIn && <div className="w-[60] text-center m-auto  my-20">
+  (signedIn && loggedIn) && <div className="w-[60] text-center m-auto  my-20">
 
   <button className='text-orange-600 text-2xl my-5'>
     <BsCheck2Square/>
   </button>
 
   <h3>Account Successfully Created</h3>
-{userFileLoading && <div>
-   ...Please wait, while we set the table
-  </div> || !userFileLoading && <div>
-   {error}
-  </div> }
-  </div> ||
+
+  </div>  || 
   
-  !signedIn && ( <form action="" method="post" className='p-3 w-[350px] mx-auto justify-center text-lg flex flex-col  my-3 rounded sm:w-[90%] border-2'
+ ( <form action="" method="post" className='p-3 w-[350px] mx-auto justify-center text-lg flex flex-col  my-3 rounded sm:w-[90%] border-2'
   onSubmit={submitForm}
   >
 

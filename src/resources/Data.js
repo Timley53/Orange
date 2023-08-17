@@ -37,35 +37,124 @@ export const PieData = [
         name: '',
         email:''
     },
-    expenses:[],
-    categories:[
+
+    
+    expenses:{
+
+      categories:[
       {
         name:'food',
         budget: 3000,
-        value: [-100,-300,-123,-145, -24], 
+
+        exp: [
+          {
+           value: -100
+          },
+          
+          {
+           value: -300
+          },
+          
+          {
+           value: -123
+          },
+          
+          {
+           value: -145
+          },
+          
+          {
+           value: -24
+          },
+        ], 
+    },
+    
+    {
+      name:'entertaiment',
+        budget: 3000,
+        value: [
+          {
+            value: -10
+           },
+          {
+            value: -30
+           },
+          {
+            value: -23
+           },
+          {
+            value: -14
+           },
+          {
+            value: -24
+           },
+        ],     
+      },
+
+      
+    {
+      name:'utility',
+      budget: 3000,
+      value: [
+        {
+          value: -14
+         },
+        {
+          value: -21
+         },
+        {
+          value: -28
+         },
+        {
+          value: -15
+         },
+        {
+          value: -17
+         },
+      ],              
     },
     {
-        name:'entertaiment',
-        budget: 3000,
-        value: [-10,-30,-23,-14, -24],     
-       },
-    {
-        name:'utility',
-        budget: 3000,
-        value: [-12,-5,-12,-15, -94],            
+      name:'transport',
+      budget: 3000,
+      value:[
+        {
+          value: -101
+         },
+        {
+          value: -32
+         },
+        {
+          value: -213
+         },
+        {
+          value: -140
+         },
+        {
+          value: -247
+         },
+      ],              
     },
-    {
-        name:'transport',
-        budget: 3000,
-        value: [-199,-1300,-2123,-3145, -424],            
-    },
-    ],
+  ],
+},
+
+
+
     savings:{
         goals:[
             {
                 title:'phone',
                 target: 200,
-                current: 20
+                current: [30, 40,10]
+            },
+            {
+                title:'Laptop',
+                target: 2100,
+                current: [310, 140,10]
+            },
+            {
+                title:'Rent',
+                target: 2000,
+                current: [300, 120,310]
             }
         ]
     },

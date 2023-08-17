@@ -31,7 +31,7 @@ Transport
       <MdDelete/>
     </button>
 
-    <span title='This is a little note for later' className=' mx-3 hover:text-orange-600 cursor-pointer transition-all relative  note-parent z-30'>
+    <span title='This is a little note for later' className=' mx-3 hover:text-orange-600 cursor-pointer transition-all relative  note-parent '>
       <MdNotes/>
 
 <span className='absolute notes z-20'>

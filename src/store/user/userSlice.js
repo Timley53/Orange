@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { auth, database } from '../../resources/firebase'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc} from "firebase/firestore";
 import { Defaultuser } from "../../resources/Data";
 
 const initialState = {
@@ -38,6 +38,7 @@ export const logIn = createAsyncThunk('user/login',
 
     
     }catch(err){
+        console.log(err.massage)
         throw new Error(err.message)
     }
 
@@ -48,17 +49,46 @@ export const userSignUp = createAsyncThunk('user/signUp',
 
         const {email, password, fullname} = params
 
-        
+        let user
+
         try{
          const userCredentials = await createUserWithEmailAndPassword(auth, email,password)
 
+         console.log(userCredentials)
+
+         if(userCredentials.user){
+           user = await signInWithEmailAndPassword(auth, email, password )
+
+                if(user.user){
+                    const collectionRef = collection(database,'users' )
+
+                    const docRef = doc(collectionRef,user.user.uid )
+
+                    await setDoc(docRef, {
+                        ...Defaultuser,
+                             UserDetails:{
+                                 ...Defaultuser.UserDetails,
+                                name: fullname,
+                                email: email,
+                                // createdOn: new Date()
+                             }
+                    })
+
+
+                }
+         }
+
+
+
          return {
-             uId:userCredentials.user.uid, fullname, email 
+             uId:user.user.uid, fullname, email 
         }
 
             
 
         }catch(err){
+            console.log(err.massage, '1-here')
+
             throw new Error(err.message)
         }
 
@@ -73,22 +103,36 @@ export const createUserDatabase = createAsyncThunk('user/createDatabase', async 
 
     try{
 
-        const collectionRef = collection(database,Id )
+        const collectionRef = collection(database,'users' )
 
-        const docRef = await addDoc(collectionRef, {
+        const docRef = doc(collectionRef,Id )
+
+        await setDoc(docRef, {
             ...Defaultuser,
-             UserDetails:{
-                 ...Defaultuser.UserDetails,
-                name: fullname,
-                email: email,
-             },
+                 UserDetails:{
+                     ...Defaultuser.UserDetails,
+                    name: fullname,
+                    email: email,
+                    // createdOn: new Date()
+                 }
+        })
+
+        // const docRef = await addDoc(collectionRef, {
+        //     ...Defaultuser,
+        //      UserDetails:{
+        //          ...Defaultuser.UserDetails,
+        //         name: fullname,
+        //         email: email,
+        //      },
 
 
-        } )
-console.log(docRef.id);
-        return docRef.id
+        // } )
+console.log(Id);
+        return Id
 
     }catch(err){
+        console.log(err.massage, '2-here')
+
         throw new Error(err.message)
 
     }
@@ -110,6 +154,13 @@ const userSlice = createSlice({
         login: (state, action) =>{
           
                 state.loggedIn = action.payload.loggedIn
+        },
+        logOut:(state, action)=>{
+            state.loggedIn = false
+            state.signedIn = false
+            state.userFileCreation.userFileCreated = false
+
+
         }
     },
 
@@ -144,6 +195,7 @@ const userSlice = createSlice({
         builder.addCase(userSignUp.fulfilled, (state, action)=>{
                 state.loading = false
                 state.signedIn = true
+                state.userFileCreation.userFileCreated =  true
                 state.uId = action.payload.uId
                 state.fullname = action.payload.fullname
                 state.email = action.payload.email
@@ -180,4 +232,4 @@ const userSlice = createSlice({
 })
 
 export default userSlice.reducer
-export const { updateUserDetails, login} = userSlice.actions
+export const { updateUserDetails, login, logOut} = userSlice.actions

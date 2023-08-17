@@ -10,10 +10,10 @@ const [showFilter, setShowFilter] = useState(false)
 
 
   return ( 
-    <section className='flex w-[99%] h-[90vh] md:h-[80vh] sm:h-[77vh] sm:justify-center relative'>
+    <section className='flex w-[99%] h-[99vh] md:h-[80vh]  sm:h-[77vh] sm:justify-center  relative'>
 
 
-      <div className={`history ${!showFilter ? 'flex flex-col w-[80%] sm:w-[99%]':'sm:w-[99%] w-[80%] sm:hidden'} overflow-y-scroll`}
+      <div className={`history ${!showFilter ? 'flex flex-col w-[80%] sm:w-[99%]':'sm:w-[99%] w-[80%] sm:hidden'}  overflow-y-scroll`}
       >
     <ExpenseArticle/>
     <ExpenseArticle/>

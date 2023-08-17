@@ -32,7 +32,7 @@ const chooseIcon = (type)=>{
 
 export function CategoryList() {
   return (
-    <div className='w-[100%] h-[500px] md:h-[450px] sm:h-[480px] flex flex-wrap items-start p-1 rounded-md    overflow-y-scroll'>
+    <div className='w-[100%] h-[90vh] md:h-[80vh] sm:h-[73vh] flex flex-wrap items-start p-1 rounded-md  overflow-y-scroll'>
 
     <ExcategoryArticle/>
     <ExcategoryArticle/>

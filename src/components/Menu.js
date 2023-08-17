@@ -71,7 +71,7 @@ console.log(li.classList);
 
 
   return (
-<nav className={`Menu-bar z-50 ${openMenu ? 'flex':'flex md:hidden'} w-[180px] h-[100%] flex-col bg-orange-500 items-start fixed m-0`}>
+<nav className={`Menu-bar z-50 ${openMenu ? 'flex':'flex md:hidden'} w-[180px] h-[100%] flex-col bg-orange-500 items-start fixed m-0 z-50`}>
 
     <div className="logo text-white self-center w-[60%] my-4 mt-8 md:hidden">
        <img src={BWNoBg} alt="logo"  />
@@ -136,7 +136,7 @@ console.log(li.classList);
            </li>
 
            <li className='rounded'>
-          <NavLink to={'./'} 
+          <NavLink to={'income'} 
            className={`flex items-center p-3 px-5 rounded`}>
 
     <span className='mr-3 text-[18px]'>

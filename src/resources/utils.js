@@ -3,7 +3,30 @@ import {MdOutlineEmojiTransportation, MdOutlineFastfood, MdOutlineCable, MdLiveT
 import {GiClothes} from 'react-icons/gi'
 
 
+export const chooseIcon = (type)=>{
 
+  if(type === 'transport'){
+      return <MdOutlineEmojiTransportation/>
+  }
+
+  if(type === 'food'){
+      return <MdOutlineFastfood/>
+  }
+
+  if(type === 'utility'){
+      return <MdOutlineCable/>
+  }
+
+  if(type === 'entertainment'){
+      return <MdOutlineLiveTv/>
+  }
+
+  if(type === 'clothing'){
+      return <GiClothes/>
+  }
+
+
+}
 
 export const characterTest = (username) =>{
     const characterRule = /^[A-Za-z0-9]+$/
@@ -22,27 +45,99 @@ export const characterTest = (username) =>{
    }
      
 
-   const  categories = [
+  export const  categories = [
     {
-        name:'food',
-        budget: 3000,
-        value: [-100,-300,-123,-145, -24], 
+      name:'food',
+      budget: 3000,
+
+      exp: [
+        {
+         value: -100
+        },
+        
+        {
+         value: -300
+        },
+        
+        {
+         value: -123
+        },
+        
+        {
+         value: -145
+        },
+        
+        {
+         value: -24
+        },
+      ], 
+  },
+  
+  {
+    name:'entertaiment',
+      budget: 3000,
+      value: [
+        {
+          value: -10
+         },
+        {
+          value: -30
+         },
+        {
+          value: -23
+         },
+        {
+          value: -14
+         },
+        {
+          value: -24
+         },
+      ],     
     },
-    {
-        name:'entertaiment',
-        budget: 3000,
-        value: [-10,-30,-23,-14, -24],     
+
+    
+  {
+    name:'utility',
+    budget: 3000,
+    value: [
+      {
+        value: -14
        },
-    {
-        name:'utility',
-        budget: 3000,
-        value: [-12,-5,-12,-15, -94],            
-    },
-    {
-        name:'transport',
-        budget: 3000,
-        value: [-199,-1300,-2123,-3145, -424],            
-    },
+      {
+        value: -21
+       },
+      {
+        value: -28
+       },
+      {
+        value: -15
+       },
+      {
+        value: -17
+       },
+    ],              
+  },
+  {
+    name:'transport',
+    budget: 3000,
+    value:[
+      {
+        value: -101
+       },
+      {
+        value: -32
+       },
+      {
+        value: -213
+       },
+      {
+        value: -140
+       },
+      {
+        value: -247
+       },
+    ],              
+  },
 ]
 
 export const reduceExpense = (arr)=>{
@@ -73,35 +168,76 @@ export const calcPercentage = (part, total)=>{
 
    }
 
-   export const totalBudget = (categories)=>{
-    return categories?.reduce((acc,cat)=>{
-      return acc + cat.budget
-    },0)
-   }
+  //  export const totalBudget = (categories)=>{
+  //   return categories?.reduce((acc,cat)=>{
+  //     return acc + cat.budget
+  //   },0)
+  //  }
 
    //choose icons
  
-export const chooseIcon = (type)=>{
+///calculate totalBudget
 
-    if(type === 'transport'){
-        return <MdOutlineEmojiTransportation/>
-    }
+export const totalBudget = (categories)=>{
+  return categories?.reduce((acc,cat)=>{
+    return acc + cat.budget
+  },0)
+ }
 
-    if(type === 'food'){
-        return <MdOutlineFastfood/>
-    }
+ //format Number
 
-    if(type === 'utility'){
-        return <MdOutlineCable/>
-    }
+ const formatNumber = (number) =>{
 
-    if(type === 'entertainment'){
-        return <MdOutlineLiveTv/>
-    }
+  const locale = navigator.language
+  console.log(locale);
 
-    if(type === 'clothing'){
-        return <GiClothes/>
-    }
+  return new Intl.NumberFormat(locale,{
+    style: 'currency',
+    currency: locale === 'en-NG' ? 'NGN': "USD"
+    // currencyDisplay: 'symbol'
 
+    
+  } ).format(number)
+}
+// console.log(formatNumber(totalBudget(categories)));
+
+
+
+/////Generate Random IDs with and not generate same one
+
+export const generateIdNumbers = (type)=>{
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+const lengthArr = Array(8).fill('')
+const generateNumber = () => Math.floor(Math.random() * characters.length )
+
+const newArr = lengthArr.map(ch => ch +characters[ generateNumber()]).join('')
+
+return `${type}/${newArr}`
+}
+
+
+
+
+//////
+export function generateCompareID(type, existingArr){
+
+const id = generateIdNumbers(type)
+
+const checkIfIDExists = (id, existingArr)=>{
+  const checkId = existingArr.every(exp => exp.id !== id )
+
+  return checkId
+}
+
+
+  if(checkIfIDExists(id,existingArr )){
+
+    return id
+
+  }else{
+    return generateIdNumbers(type)
+  }
 
 }
+
+

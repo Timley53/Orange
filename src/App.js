@@ -13,7 +13,7 @@ import PrivateRoute from './components/signIn/PrivateRoute';
 import Expenses from './components/Pages/Expenses/Expenses';
 import Home from './components/Pages/Home/Home';
 import Saving from './components/Pages/Savings/Saving';
-
+import IncomeSavings from './components/Pages/Income-savings/IncomeSavings'
 const router = createBrowserRouter(
   createRoutesFromElements(
       <Route path='/'  element={<AppLayout/>}>
@@ -27,6 +27,9 @@ const router = createBrowserRouter(
     <Route path='expenses' element={<Expenses/>}> 
     
     </Route>
+
+    <Route path='income' element={<IncomeSavings/>}/>
+
 
     <Route path='savings' element={<Saving/>}>
 

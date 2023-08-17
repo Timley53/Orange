@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 function HomeHistory() {
   return (
-    <div className='w-[35%] md:w-[30%] sm:w-[99%] mx-3 bg-gray-100'>
+    <div className='w-[35%] md:w-[30%] sm:w-[100%]  mx-3 sm:mx-0 sm:mt-5 bg-gray-100'>
         <header className='text-sm flex justify-between p-2 bg-gray-300'>
 
             <span>Last 5 Transaction</span>

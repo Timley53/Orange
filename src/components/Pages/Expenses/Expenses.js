@@ -7,12 +7,13 @@ import ExpHistory from './HistoryLayouts/ExpHistory'
 import AddNew from './AddNew/AddNew'
 import { GiSideswipe } from 'react-icons/gi'
 import { AiOutlineSliders } from 'react-icons/ai'
+import ExpenseSideBar from './ExpenseSideBar'
 
 function Expenses() {
     // console.log(window.location);
 
-    const [showHistory, setShowHistory] = useState(false)
-    const [showAdd, setShowAdd] = useState(true)
+    const [showHistory, setShowHistory] = useState(true)
+    const [showAdd, setShowAdd] = useState(false)
     const [showCategory, setShowCategory] = useState(false)
 
     const displayHisory = ()=>{
@@ -39,7 +40,7 @@ function Expenses() {
   return (
     <div className=' sm:p-0 md:mt-[4rem] sm:mt-[3.3rem] flex'>
 
-    <main className={`w-[75%] sm:w-[100%] md:w-[72%] flex flex-col items-center justify-center overflow-edit`}>
+    <main className={`w-[75%] sm:w-[100%] md:w-[72%] flex flex-col items-center justify-center overflow-edit`} >
 
       <div className=" my-2 justify-between w-[100%] p-2 hidden sm:flex">
 
@@ -69,11 +70,13 @@ function Expenses() {
 
 
 
-  <aside className={`${showSide ? 'w-[20%] sm:block md:w-[25%] sm:w-[80%]  ':'w-[20%] sm:hidden md:w-[25%] ' }    border-2  border-red-500 h-[99%]      sm:h-[90%] fixed right-0` }>
+  <aside className={`${showSide ? 'w-[20%] sm:block md:w-[25%] sm:w-[80%]  ':'w-[20%] sm:hidden md:w-[25%] ' }  bg-gray-300 text-black    border-2  h-[100%]   sm:h-[90%] fixed right-0` }>
 
-  <button onClick={()=>setShowSide(!showSide)}>
+  {/* <button onClick={()=>setShowSide(!showSide)}>
     close it
-  </button>
+  </button> */}
+
+  <ExpenseSideBar setShowSide={setShowSide} showSide={showSide}/>
   </aside>
 
 

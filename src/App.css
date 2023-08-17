@@ -71,6 +71,11 @@ body{
   }
 }
 
+.savings-grid{
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 5px;
+}
+
 .balance-grid{
   grid-template-columns: repeat(auto-fit, 190px);
   gap: 10px;

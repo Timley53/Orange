@@ -8,7 +8,7 @@ function AddNew() {
   return (
     <div className='w-[100%] flex h-auto flex-col items-center'>
 
-    <article className='tab w-[80%] bg-gray-200 p-2 flex m-2 my-3'>
+    <article className='tab w-[90%] bg-gray-200 p-2 flex m-2 my-3'>
 
         <button className={`w-[50%] ${ showAddNew ? ' bg-white shadow-md': ''} p-2 rounded-sm`} onClick={()=>setShowAddNew(true)}>Add expense</button>
 

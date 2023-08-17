@@ -28,7 +28,7 @@ function HomeIncomeAndSavings() {
             <CategoryArticle/>
         <CategoryArticle/> */}
 
-        <IncomeArticle/>
+        {/* <IncomeArticle/> */}
             <SavingsArtcile/>
 
         </main>
@@ -69,32 +69,32 @@ const  SavingsArtcile = () =>{
   )
 }
 
-const  IncomeArticle = () =>{
+// const  IncomeArticle = () =>{
 
 
 
-  return(
-      <article className="w-full flex p-2 py-3 items-center border-b-2">
+//   return(
+    //   <article className="w-full flex p-2 py-3 items-center border-b-2">
 
-          <span className='w-[45px] h-[45px] rounded-full bg-green-400 text-white text-2xl p-2 flex items-center justify-center'>
-          <MdSavings/>
-          </span>
-          <div className="ml-6 flex flex-col">
-      <span className='text-xs'> 
-          title
-      </span>
-      <span  className='text-xs'>
-          amount / remaining
-      </span>
+    //       <span className='w-[45px] h-[45px] rounded-full bg-green-400 text-white text-2xl p-2 flex items-center justify-center'>
+    //       <MdSavings/>
+    //       </span>
+    //       <div className="ml-6 flex flex-col">
+    //   <span className='text-xs'> 
+    //       title
+    //   </span>
+    //   <span  className='text-xs'>
+    //       amount / remaining
+    //   </span>
 
-      <div className='h-[15px] my-1 bg-green-200 rounded-md'>
-          <div className='h-full bg-green-600 rounded-l-md w-[40%]'>
+    //   <div className='h-[15px] my-1 bg-green-200 rounded-md'>
+    //       <div className='h-full bg-green-600 rounded-l-md w-[40%]'>
 
-          </div>
-      </div>
+    //       </div>
+    //   </div>
 
 
-          </div>
-      </article>
-  )
-}
+//     //       </div>
+//     //   </article>
+//   )
+// }

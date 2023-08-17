@@ -15,32 +15,54 @@ const initialState = {
 
 }
 
-export const getCollection = createAsyncThunk('userData/getCollection', async (params, thunkAPI)=>{
+export const getDocument = createAsyncThunk('userData/getCollection', async (params, thunkAPI)=>{
 
-    const { colID } = params
+    const { docID } = params
 
 
     try{
 
-        const collectionRef = collection(database, colID)
+        // const collectionRef = collection(database, 'users')
+        // const docRef = doc(collectionRef, docID)
 
-        const getDocResponse = await getDocs(collectionRef)
+        const docRef = doc(database, 'users', docID)
+
+
+        const getDocResponse = await getDoc(docRef)
 
         let userData
 
-        getDocResponse.forEach((doc)=>{
-            userData =  {
-                Data: doc.data(),
-                DocumentId: doc.id
-                
+        if(getDocResponse.exists()){
+
+            console.log(getDocResponse.data())
+
+            userData = {
+                data: getDocResponse.data(),
+                DocumentId: docID,
             }
 
-            // console.log(userData);
 
-        })
-        return {...userData}
+        } else{
+            throw new Error('Data does not exist')
+        }
+        
+        
+        
+        // getDocResponse.forEach((doc)=>{
+            //     userData =  {
+                //         Data: doc.data(),
+                //         DocumentId: doc.id
+                
+                //     }
+                
+                //     // console.log(userData);
+                
+                // })
+                return {...userData}
 
     }catch(err){
+        console.log(err)
+
         throw new Error(err.message)
     }
 })
@@ -75,6 +97,7 @@ export const addNewExpense = createAsyncThunk('userData/addNewExpense', async (p
 
 
     }catch(err){
+        console.log(err.massage)
         throw Error(err.massage)
     }
 
@@ -137,20 +160,20 @@ const userDataSlice = createSlice({
 
     extraReducers: (builder)=>{
 
-        builder.addCase(getCollection.pending, (state, action)=>{
+        builder.addCase(getDocument.pending, (state, action)=>{
             state.loading = true
             state.error = null
 
     });
 
-    builder.addCase(getCollection.fulfilled, (state, action)=>{
+    builder.addCase(getDocument.fulfilled, (state, action)=>{
         state.loading = false
-        state.userData = action.payload.Data
+        state.userData = action.payload.data
         state.DocumentId = action.payload.DocumentId
           
     });
     
-    builder.addCase(getCollection.rejected, (state, action)=>{
+    builder.addCase(getDocument.rejected, (state, action)=>{
         state.loading = false
             state.error = action.error.message.split(' ').slice(1).join(' ')
     });
