@@ -5,9 +5,10 @@ import ExpenseFileter from './ExpenseFileter'
 import { MdAdd, MdHistory, MdAddTask, MdAddToQueue, MdOutlineCategory, MdViewSidebar, MdSlideshow, MdArchive, MdSwipeRight } from 'react-icons/md'
 import ExpHistory from './HistoryLayouts/ExpHistory'
 import AddNew from './AddNew/AddNew'
-import { GiSideswipe } from 'react-icons/gi'
-import { AiOutlineSliders } from 'react-icons/ai'
 import ExpenseSideBar from './ExpenseSideBar'
+import { useSelector } from 'react-redux'
+import LoadingView from './LoadingView'
+import { Outlet } from 'react-router-dom'
 
 function Expenses() {
     // console.log(window.location);
@@ -15,6 +16,13 @@ function Expenses() {
     const [showHistory, setShowHistory] = useState(true)
     const [showAdd, setShowAdd] = useState(false)
     const [showCategory, setShowCategory] = useState(false)
+
+    const queriesLoading = useSelector((state)=> state.userQueries.loading)
+
+    // console.log(queriesLoading);
+
+
+
 
     const displayHisory = ()=>{
       setShowHistory(true)
@@ -37,30 +45,34 @@ function Expenses() {
 
 
     const [showSide, setShowSide] = useState(false)
+
   return (
     <div className=' sm:p-0 md:mt-[4rem] sm:mt-[3.3rem] flex'>
 
-    <main className={`w-[75%] sm:w-[100%] md:w-[72%] flex flex-col items-center justify-center overflow-edit`} >
+{queriesLoading && <LoadingView/>}
 
-      <div className=" my-2 justify-between w-[100%] p-2 hidden sm:flex">
 
-      {/* <p className='text-start m-1 w-[20%] '>Expense</p>  */}
+    <main className={`w-[75%] h-[90%] sm:w-[99%] md:w-[99%] md:mx-auto flex flex-col items-center justify-center overflow-edit `} >
+
+      <div className=" my-2 justify-between w-[100%] hidden  p-2 md:flex">
+
 
 <button className=' text-orange-600 text-xl' onClick={()=>setShowSide(!showSide)} >
 <MdViewSidebar/>
  </button>
 
+      </div>
+    <section className='w-[100%] h-[100%] border-2 border-red-500'>
 
+    <Outlet/>
+
+    </section>
 
    
-      </div>
 
     
 
-    {showHistory && <ExpHistory/>}
-    {showCategory && <CategoryGrids/>}
-    {showAdd && <AddNew/>}
-    {/* {showCategory && <CategoryGrids/>} */}
+  
 
     </main>
   
@@ -70,7 +82,7 @@ function Expenses() {
 
 
 
-  <aside className={`${showSide ? 'w-[20%] sm:block md:w-[25%] sm:w-[80%]  ':'w-[20%] sm:hidden md:w-[25%] ' }  bg-gray-300 text-black    border-2  h-[100%]   sm:h-[90%] fixed right-0` }>
+  <aside className={`${showSide ? 'w-[20%] md:block md:w-[25%] sm:w-[80%]  ':'w-[20%] md:hidden md:w-[25%] ' }  bg-gray-300 text-black    border-2  h-[100%]   sm:h-[90%] fixed right-0` } >
 
   {/* <button onClick={()=>setShowSide(!showSide)}>
     close it
@@ -86,13 +98,35 @@ function Expenses() {
 
 
 
-    <div className="fixed right-4  bottom-4 flex flex-col sm:flex-row sm:w-[100%] sm:right-0 sm:bottom-0 sm:p-1  sm:bg-gray-300 sm:bg-opacity-70 backdrop-blur-md  sm:justify-evenly">
+    
+
+    </div>
+  )
+}
+//block w-[30%] md:w-[80%] sm:z-10 sm:block block sm:hidden
+export default Expenses
+
+
+
+/*
+
+
+///// to show different tabs
+//  {showHistory && <ExpHistory/>}
+    {showCategory && <CategoryGrids/>}
+    {showAdd && <AddNew/>}
+    {/* {showCategory && <CategoryGrids/>}
+
+
+//////=====to switch tabs between history and categories
+ <div className="fixed right-4  bottom-4 flex flex-col sm:flex-row sm:w-[100%] sm:right-0 sm:bottom-0 sm:p-1  sm:bg-gray-300 sm:bg-opacity-70 backdrop-blur-md  sm:justify-evenly">
 
 
     <article className='flex items-center flex-row-reverse' >
 
 
-      <button className='p-2 m-1 bg-emerald-500 text-white text-xl rounded-full  sm:text-xl sm:bg-transparent sm:border-2 border-orange-700 sm:text-orange-700 sm:rounded-md' onClick={()=> displayAdd()}>
+      <button className='p-2 m-1 bg-emerald-500 text-white text-xl rounded-full  sm:text-xl sm:bg-transparent sm:border-2 border-orange-700 sm:text-orange-700 sm:rounded-md'
+       onClick={()=> displayAdd()}>
         <MdAdd/>
       </button>
 
@@ -114,18 +148,11 @@ function Expenses() {
       </span>
       </article>
 
-    {/* <article className='flex items-center flex-row-reverse'>
-      <button className='p-2 m-1 bg-emerald-500 text-white text-xl rounded-full   sm:text-xl sm:bg-transparent sm:border-2 border-orange-700 sm:text-orange-700 sm:rounded-md'>
-        <MdAdd/>
-      </button>
-
-      <span className='text-xs sm:hidden'>
-      change
-      </span>
-      </article> */}
+   
 
     <article className='flex items-center flex-row-reverse'>
-      <button className='p-2 m-1 bg-emerald-500 text-white text-xl rounded-full  sm:text-xl sm:bg-transparent sm:border-2 border-orange-700 sm:text-orange-700 sm:rounded-md' onClick={()=> displayCategory()}>
+      <button className='p-2 m-1 bg-emerald-500 text-white text-xl rounded-full  sm:text-xl sm:bg-transparent sm:border-2 border-orange-700 sm:text-orange-700 sm:rounded-md' 
+      onClick={()=> displayCategory()}>
         <MdOutlineCategory/>
       </button>
 
@@ -135,35 +162,7 @@ function Expenses() {
       </article>
 
 
-    {/* <article className='flex items-center'>
-      <span className='text-sm'>
-      Categories
-      </span>
-      <button className='p-2 m-1 bg-emerald-500 text-white text-xl rounded-full'>
-        <MdAdd/>
-      </button>
-      </article>
-    <article className='flex items-center'>
-      <span className='text-sm'>
-      Categories
-      </span>
-      <button className='p-2 m-1 bg-emerald-500 text-white text-xl rounded-full'>
-        <MdAdd/>
-      </button>
-      </article>
-    <article className='flex items-center'>
-      <span className='text-sm'>
-      Categories
-      </span>
-      <button className='p-2 m-1 bg-emerald-500 text-white text-xl rounded-full'>
-        <MdAdd/>
-      </button>
-      </article> */}
+  
 
-    </div>
-
-    </div>
-  )
-}
-//block w-[30%] md:w-[80%] sm:z-10 sm:block block sm:hidden
-export default Expenses
+    </div> 
+*/

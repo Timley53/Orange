@@ -133,6 +133,14 @@ body{
   transition: all .5s;
 }
 
+.expense-child a{
+  font-size:.7rem ;
+  font-weight: 300;
+}
+
+.expense-child a:hover{
+  text-decoration: underline;
+}
 
 
 @media all and (max-width:1124px){

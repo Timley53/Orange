@@ -1,15 +1,15 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { formatNumber,totalBudget, categories } from '../../../resources/utils';
+import { totalBudget,formatNumber, categories } from '../../../resources/utils';
 
 
 
 function BalanceGrid() {
   
-const ExpensesCategories = useSelector((state) => state.userData.userData.expenses.categories)
+const ExpensesCategories = useSelector((state) => state.userData.userData?.expenses?.categories)
 
-console.log(ExpensesCategories);  
-console.log(formatNumber(totalBudget(categories)))
+// console.log(ExpensesCategories);  
+// console.log(formatNumber(totalBudget(ExpensesCategories)))
 
   return (
     <div className='w-[60%] md:w-[60%] sm:w-[100%]  p-2 balance-grid grid border-2'>
@@ -20,7 +20,9 @@ console.log(formatNumber(totalBudget(categories)))
 
       <small className='text-xs'>Monthly Budget</small>
 
-      <span className=' text-base'>$10,399.00</span>
+      <span className=' text-base'> 
+      
+      { formatNumber(totalBudget(ExpensesCategories)) }</span>
 
       </article>
 

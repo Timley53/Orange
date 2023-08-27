@@ -3,13 +3,22 @@ import Income from './Income'
 import Savings from './Saving/Savings'
 import {GrTransaction} from 'react-icons/gr'
 import { MdOutlineSavings } from 'react-icons/md'
+import  LoadingView from '../Expenses/LoadingView'
+import { useSelector } from 'react-redux'
 
 function IncomeSavings() {
   const [showSavings,setShowSavings] = useState(false)
+  const loading = useSelector(state => state.userQueries.loading)
 
 
   return (
     <div className='w-[100%] md:mt-16 pt-2 sm:pt-0 border-2 p-1 sm:px-0 flex flex-col items-center sm:relative'>
+
+{
+  loading &&
+  <LoadingView/>
+}
+      
        <header className=' flex w-[60%] sm:w-[100%] rounded-sm  items-center justify-center p-1 bg-gray-200 sm:fixed sm:bottom-1 sm:z-10'>
 
 

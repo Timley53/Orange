@@ -19,7 +19,7 @@ function MainSavings() {
   return (
 
 
-  !showList &&  <div className={` ${showSide ? 'w-[75%] sm:hidden': 'w-[75%] sm:w-[100%]'} `}>
+  !showList &&  <div className={` ${showSide ? 'w-[75%] sm:hidden': 'w-[75%] sm:w-[100%]'} `} >
 
     <div className="flex overflow-y-scroll  flex-wrap h-auto w-[100%]">
 
@@ -32,7 +32,7 @@ function MainSavings() {
 
    
         
-    </div> || showList && <EachSavingsList  showList={showList} setShowList={setShowList} showSide={showSide}/>
+    </div> ||  showList && <EachSavingsList  showList={showList} setShowList={setShowList} showSide={showSide}/>
 
 
 

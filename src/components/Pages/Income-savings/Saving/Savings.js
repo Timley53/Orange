@@ -4,6 +4,8 @@ import SavingsSide from './SavingsSide'
 import { useState } from 'react'
 import { MdViewSidebar } from 'react-icons/md'
 import { ImCross } from 'react-icons/im'
+import { useDispatch, useSelector } from 'react-redux'
+import { createSavingsPlan, saveNewFund } from '../../../../store/user/userQueries'
 
 export const SavingsContext = createContext(null)
 
@@ -39,22 +41,22 @@ const formProps ={
 {showDropDown &&
       <div className='absolute h-[90px] bg-emerald-600 text-white w-[180px] rounded -left-[100px] top-10 z-10 flex flex-col items-start  text-sm'>
 
-        <button className='p-2 py-3 hover:bg-emerald-300 hover:text-black transition-all border-b-2 w-[100%] text-left' onClick={()=>{
+        <span className='p-2 py-3 hover:bg-emerald-300 hover:text-black transition-all border-b-2 w-[100%] text-left' onClick={()=>{
           setAddNew(true)
           setSaveNew(true)
           setAddPlan(false)
           
           
-          }}>Save</button>
+          }}>Save</span>
 
-        <button className='p-2  py-3 hover:bg-emerald-300 hover:text-black transition-all  w-[100%] text-left' 
+        <span className='p-2  py-3 hover:bg-emerald-300 hover:text-black transition-all  w-[100%] text-left' 
         onClick={()=>{
           setAddNew(true)
           setAddPlan(true)
           setSaveNew(false)
           
         }}
-        >Create Saving Plan</button>
+        >Create Saving Plan</span>
 
       </div>
 }
@@ -101,82 +103,126 @@ export default Savings
 function SavingsForm({addNew,setAddNew,saveNew,setSaveNew,addPlan,setAddPlan}){
 
 
-  const [newSaveAmount, setNewSaveAmount] = useState('')
+  const [newSaveAmount, setNewSaveAmount] = useState(0)
   const [newSavePan, setNewSavePlan] = useState('')
 
   const [planTitle, setPlanTitle] = useState('')
-  const [planGoals, setPlanGoals] = useState('')
+  const [planGoals, setPlanGoals] = useState(0)
+
+
+  const [validCharacter, setvalidCharacter] = useState('')
 
 ///create states from amount and plan and setup the contolled input logic 
 
-console.log(newSaveAmount,newSavePan );
+
+    const savingGoals = useSelector(state => state.userData.userData.savings.goals)
+    const userId = useSelector(state => state.userData.DocumentId)
+    const dispatch = useDispatch()
+
+    const savings = useSelector((state)=> state.userData.userData?.savings.goals)
 
 
-  const goals = [
+
+console.log(savings, newSavePan);
+
+
+const handleCreatePlanSubmit = (e)=>{
+  e.preventDefault()
+
+  if(!planTitle || !planGoals){
+    setvalidCharacter('Please input the proper value') 
+    return
+   }
+    
+   dispatch(createSavingsPlan(
     {
-        title:'phone',
-        target: 200,
-        current: [30, 40,10]
-    },
-    {
-        title:'Laptop',
-        target: 2100,
-        current: [310, 140,10]
-    },
-    {
-        title:'Rent',
-        target: 2000,
-        current: [300, 120,310]
+      userId,
+      planTitle,
+      planGoals 
     }
-]
+   ))
+   setvalidCharacter('') 
+   return
+
+
+}
+
+
+const handleSaveNewFund = (e)=>{
+  e.preventDefault()
+
+
+
+  if(!newSaveAmount && !newSavePan){
+    setvalidCharacter('Please input the proper value') 
+    return
+
+  }
+
+  dispatch(saveNewFund({
+    userId,
+    amount:newSaveAmount,
+    plan: newSavePan,
+  }))
+  setvalidCharacter('') 
+  return
+
+}
 
 
   return(
-    <section className='w[100%] flex flex-col items-center '>
-{
-  saveNew && 
-  <form action="" className='w-[50%] sm:w-[90%] sm:mt-10 flex flex-col items-center m-3 bg-emerald-100 p-2 rounded-md shadow-md relative'>
+    <section className='w[100%] flex flex-col items-center ' >
 
-  <button className='absolute right-5 hover:text-rose-300 text-sm' onClick={(e)=>{
+     <button className='absolute right-5 m-5  hover:text-rose-300 text-sm' onClick={(e)=>{
     e.preventDefault()
 
 
     setSaveNew(false)
     setAddNew(false)
 
-  }}>
-    <ImCross/>
+  }}>  <ImCross/>
   </button>
+{
+  saveNew && 
+  <form action="" className='w-[50%] sm:w-[90%] sm:mt-10 flex flex-col items-center m-3 bg-emerald-100 p-2 rounded-md shadow-md relative' onSubmit={handleSaveNewFund}>
 
+ 
+  
     <h2 className='my-3 mt-4 text-lg'>Add Funds To Plan</h2>
 
     <label htmlFor="amount" className='w-[50%] my-1'>
-      <span>Amount </span>
+      <span>Title </span>
       <input type="number" name="amount" className='border-2 border-emerald-300 w-[100%] rounded' value={newSaveAmount} onChange={(e)=>setNewSaveAmount(e.target.value)} required/>
     </label>
 
 
-    <label htmlFor="ChoosePlan" className='my-2 sm:my-4'>
+    <label htmlFor="ChoosePlan" className='my-2 sm:my-4 text-sm'>
       <span>Choose plan:</span>
 
-    <select name="plan" id="" className='m-3 ml-0    bg-transparent border-2 border-emerald-300 px-2 rounded'  value={newSavePan} onChange={(e)=>setNewSavePlan(e.target.value)}>
+    <select name="plan" id="" className='m-3 ml-0    bg-transparent border-2 border-emerald-300 px-2 rounded text-sm'  value={newSavePan} onChange={(e)=>setNewSavePlan(e.target.value)} required>
       
 
-     {goals.map(goal =>{
+<option value="" className=''>Select saving plan</option>
+    {
+      savings && savings.map(goals => {
+        const {title , id} = goals
 
-      const {title} = goal
-
-      return(
-          <option value={title}>
+        return( 
+          <option key={id} value={title}>
             {title[0].toUpperCase() + title.slice(1)}
           </option>
         )
-        
-      })}
-
+      })
+    }
 
     </select>
       </label>
+
+      {
+validCharacter &&
+  <span className='mx-auto text-red-400 text-sm m-2' >{validCharacter}</span>
+
+}
 
 
       <button className='m-2 my-4 p-2 px-4 rounded bg-emerald-400 text-sm hover:bg-emerald-300 '> 
@@ -189,24 +235,13 @@ console.log(newSaveAmount,newSavePan );
 
 
   || addPlan && 
-  <form action="" className='w-[50%] sm:w-[90%] sm:mt-10 flex flex-col items-center m-3 bg-emerald-100 p-2 rounded-md shadow-md relative'>
+  <form action="" className='w-[50%] sm:w-[90%] sm:mt-10 flex flex-col items-center m-3 bg-emerald-100 p-2 rounded-md shadow-md relative' onSubmit={handleCreatePlanSubmit}>
 
-  <button className='absolute right-5 hover:text-rose-300 text-sm' onClick={(e)=>{
-    e.preventDefault()
-
-
-    setSaveNew(false)
-    setAddNew(false)
-    setAddPlan(false)
-
-  }}>
-    <ImCross/>
-  </button>
 
     <h2 className='my-3 mt-4 text-base'>Create a New Saving Goal</h2>
 
     <label htmlFor="PlanName" className='w-[50%] my-1'>
-      <span>Amount </span>
+      <span>Title </span>
       <input type="text" name="PlanName" className='border-2 border-emerald-300 w-[100%] rounded' value={planTitle} onChange={(e)=>setPlanTitle(e.target.value)} required/>
     </label>
 
@@ -215,8 +250,11 @@ console.log(newSaveAmount,newSavePan );
     <span>Target</span>
     <input type="number" name="planTarget" id="" className='border-2 border-emerald-300 w-[100%] rounded'  value={planGoals} onChange={(e)=> setPlanGoals(e.target.value)} required/>
    </label>
+{
+validCharacter &&
+  <span className='mx-auto text-red-400 text-sm m-2'>{validCharacter}</span>
 
-
+}
       <button className='m-2 my-4 p-2 px-4 rounded bg-emerald-400 text-sm hover:bg-emerald-300 '> 
         Submit
       </button>
@@ -232,4 +270,17 @@ console.log(newSaveAmount,newSavePan );
 
   )
 }
+
+{/* 
+  <button className='absolute right-5 hover:text-rose-300 text-sm' onClick={(e)=>{
+    e.preventDefault()
+
+
+    setSaveNew(false)
+    setAddNew(false)
+    setAddPlan(false)
+
+  }}>
+    <ImCross/>
+  </button> */}
 

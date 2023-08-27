@@ -34,7 +34,7 @@ export const getDocument = createAsyncThunk('userData/getCollection', async (par
 
         if(getDocResponse.exists()){
 
-            console.log(getDocResponse.data())
+            // console.log(getDocResponse.data())
 
             userData = {
                 data: getDocResponse.data(),

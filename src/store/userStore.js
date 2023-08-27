@@ -3,6 +3,7 @@ import userReducer from './user/userSlice'
 import uiStateReducer from './ui/uiStateSlice'
 import userDataReducer from './user/userDataSlice'
 import storage from "redux-persist/lib/storage"
+import userQueriesReducer from "./user/userQueries";
 import {persistReducer} from 'redux-persist'
 import { combineReducers } from "@reduxjs/toolkit";
 
@@ -17,6 +18,7 @@ const reducer= combineReducers({
     user: userReducer,
     uiState: uiStateReducer,
     userData: userDataReducer,
+    userQueries: userQueriesReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

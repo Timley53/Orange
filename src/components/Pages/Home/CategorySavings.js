@@ -58,8 +58,8 @@ function CategorySavings() {
             <CategoryArticle/>
         <CategoryArticle/> */}
 
-        <CategoryArticle/>
-            <SavingsArtcile/>
+                    <CategoryArticle/>
+                    <SavingsArtcile/>
 
         </main>
 

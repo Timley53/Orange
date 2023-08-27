@@ -9,7 +9,7 @@ import { login,logOut } from '../store/user/userSlice'
 import { Outlet } from 'react-router-dom'
 import { openCloseMenu } from '../store/ui/uiStateSlice'
 import { getDocument } from '../store/user/userDataSlice'
-import { useWatch } from 'rc-field-form'
+import {updateId} from '../store/user/userQueries'
 import HomeHeader from './Pages/Home/HomeHeader'
 import { listenToUserData, updateData } from '../store/user/userDataSlice'
  import { database } from '../resources/firebase'
@@ -37,6 +37,16 @@ function Dashboard() {
 
   const openMenu = useSelector((state)=> state.uiState.openMenu)
 
+  // onAuthStateChanged(auth,(user)=>{
+  //   if(!user){
+  //     navigate('/')        
+  //   }
+
+  //   if(user){
+  //     dispatch(login({loggedIn:true}))
+
+  //   }
+  // })
   // console.log(isAuthorized);
 
    useEffect(()=>{
@@ -50,24 +60,27 @@ function Dashboard() {
 
       }
     })
+   
 
     
    },[isAuthorized])
 
+
+   
    useEffect(()=>{
-    dispatch(getDocument({docID}))
+     if(isAuthorized){
+  
+       dispatch(getDocument({docID}))
+       dispatch(updateId({docID}))
+     }
    },[])
 
 
   //  useEffect(()=>{
 
-  //   // listenToUserData(dispatch({
-  //   //   userId:colID,
-  //   //   docId
-  //   // }))
+  
 
-
-  //   const docRef = doc(database,colID,docId)
+  //   const docRef = doc(database,'users',docID)
     
   //       const unsubscribe = onSnapshot(docRef,(snapShot) => {
     
@@ -90,10 +103,6 @@ function Dashboard() {
   //  console.log(userData);
   //  console.log(error);
 
-  const signOutUser = () =>{
-    dispatch(logOut())
-    signOut(auth).then(()=> console.log('sign out ')).catch(err => console.log(err.message))
-  }
 
   // signOutUser()
 
@@ -118,10 +127,10 @@ function Dashboard() {
 
           {openMenu && <div className='fixed hidden md:block h-screen bg-gray-800 bg-opacity-5 backdrop-blur-md w-screen z-20' 
           
-          onClick={()=>{ 
-              dispatch(openCloseMenu())
-              signOutUser()
-            }}
+          // onClick={()=>{ 
+          //     dispatch(openCloseMenu())
+          //     signOutUser()
+          //   }}
           />}
 
 

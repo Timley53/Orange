@@ -14,6 +14,7 @@ import Expenses from './components/Pages/Expenses/Expenses';
 import Home from './components/Pages/Home/Home';
 import Saving from './components/Pages/Savings/Saving';
 import IncomeSavings from './components/Pages/Income-savings/IncomeSavings'
+import ExpHistory from './components/Pages/Expenses/HistoryLayouts/ExpHistory';
 const router = createBrowserRouter(
   createRoutesFromElements(
       <Route path='/'  element={<AppLayout/>}>
@@ -25,7 +26,8 @@ const router = createBrowserRouter(
     <Route index element={<Home/>}/>
 
     <Route path='expenses' element={<Expenses/>}> 
-    
+    <Route index element ={<ExpHistory/>}/>
+  
     </Route>
 
     <Route path='income' element={<IncomeSavings/>}/>

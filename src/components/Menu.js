@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
-import {MdSpaceDashboard} from 'react-icons/md'
+import {MdLogout, MdSpaceDashboard} from 'react-icons/md'
 import {BsBarChartSteps, BsFillBarChartFill, BsGraphDown} from 'react-icons/bs'
 import { FaChartArea, FaMoneyBill, FaMoneyCheck, FaWallet } from 'react-icons/fa'
 import { AiOutlineHome } from 'react-icons/ai'
@@ -9,6 +9,9 @@ import BWNoBg from '../resources/black-white-Logo-no-Bg.png'
 import { ImCross } from 'react-icons/im'
 import { useDispatch } from 'react-redux'
 import { openCloseMenu } from '../store/ui/uiStateSlice'
+import { logOut } from '../store/user/userSlice'
+import { auth } from '../resources/firebase'
+import { signOut } from 'firebase/auth'
 
 function Menu() {
 
@@ -38,7 +41,7 @@ li.classList.add('expand-height')
 
 // li.classList.toggle('expand-height')
 
-console.log(li.classList);
+// console.log(li.classList);
 }
 
 
@@ -64,6 +67,11 @@ console.log(li.classList);
   },[])
 
 
+  const signOutUser = () =>{
+    dispatch(logOut())
+    signOut(auth).then(()=> console.log('sign out ')).catch(err => console.log(err.message))
+  }
+
 
 
 
@@ -71,7 +79,7 @@ console.log(li.classList);
 
 
   return (
-<nav className={`Menu-bar z-50 ${openMenu ? 'flex':'flex md:hidden'} w-[180px] h-[100%] flex-col bg-orange-500 items-start fixed m-0 z-50`}>
+<nav className={`Menu-bar z-50 ${openMenu ? 'flex': 'flex md:hidden'} w-[180px] h-[100%] flex-col bg-orange-500 items-start fixed m-0 z-50`}>
 
     <div className="logo text-white self-center w-[60%] my-4 mt-8 md:hidden">
        <img src={BWNoBg} alt="logo"  />
@@ -114,23 +122,18 @@ console.log(li.classList);
           </span>
           </NavLink> 
 
-      <ul className='self-center ml-5 mt-2 bg-orange-500 p-3 rounded-md'>
+      <ul className='ml-14 text-sm' >
+       <li className='expense-child'>
+       <NavLink >
+          Home
+        </NavLink>
+       </li>
 
-        <li className='my-[.4rem]'>
-          <NavLink className={`m-1       hover:underline`}>
-            Category
-          </NavLink>
-          </li>
-
-
-          <li className='my-[.4rem]'>
-          <NavLink className={`m-1 my-2   hover:underline `}>
-            Category
-          </NavLink>
-          </li>
-          
-        
-
+       <li className='expense-child'>
+       <NavLink >
+          Categories
+        </NavLink>
+       </li>
       </ul>
 
            </li>
@@ -160,6 +163,25 @@ console.log(li.classList);
       </span>
 
           </NavLink> 
+           </li>
+
+           <li className='rounded'>
+          <button 
+onClick={()=>{
+  signOutUser()
+//  localStorage.removeItem('persist:root')
+ localStorage.clear()
+}}
+           className={`flex items-center p-3 px-5 rounded`}>
+
+    <span className='mr-3 text-[18px]'>
+      <MdLogout/>
+      </span>
+    <span>
+      Logout
+      </span>
+
+          </button> 
            </li>
 
 

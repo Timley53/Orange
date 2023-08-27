@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import {MdSavings} from 'react-icons/md'
+import { useSelector } from 'react-redux'
+import { calcPercentage, formatNumber, reduceGoalsCurr } from '../../../resources/utils'
 
 function HomeIncomeAndSavings() {
   const [showSavings,setShowSavings ] = useState(true)
+  const savings = useSelector((state)=> state.userData.userData?.savings?.goals)
+  const income = useSelector((state)=> state.userData.userData?.income)
+  // const exps = useSelector((state)=> state.userData.userData?.expenses?.categories)
 
+  // console.log(income)
 
 
   return (
@@ -13,88 +19,100 @@ function HomeIncomeAndSavings() {
                 Savings 
                 </button>
 
-            <button className={`w-[50%]   p-3 ${!showSavings ? 'text-orange-500': ''}`}>Income</button>
+            <button className={`w-[50%]   p-3 ${!showSavings ? 'text-orange-500': ''}`}>Income</button >
 
 
            
         </header>
 
-        <main className='h-[300px] overflow-y-scroll flex flex-col overflow-edit'>
 
-            {/* <CategoryArticle/>  
-              map over and prop down details into each component
-            <CategoryArticle/>
-            <CategoryArticle/>
-            <CategoryArticle/>
-        <CategoryArticle/> */}
+        
 
-        {/* <IncomeArticle/> */}
-            <SavingsArtcile/>
+       {showSavings && <main className='h-[300px] overflow-y-scroll flex flex-col overflow-edit'>
 
-        </main>
+         
+            {
 
+                savings && savings.length > 0 && savings.map(goal =>{
+
+                    const {id} = goal
+                    
+                   return( <SavingsArtcile key={id} {...goal}/>)
+                })  || savings && savings.length < 1 && <div className='w-full text-center my-auto'>
+                No savings recorded
+              </div>
+            }
+
+        </main> || !showSavings &&  <main className='h-[300px] overflow-y-scroll flex flex-col overflow-edit'>
+
+{
+  income && income.length > 0 && income.map(inc =>{
+    return(
+      <IncomeArticle key={inc.id}  {...inc}/>
+    )
+  })  || income && income.length < 1 && <div className='w-full text-center my-auto'>
+    No income recorded
+  </div>
+}
+</main> 
+}
     </div>
   )
 }
 
 export default HomeIncomeAndSavings
 
-const  SavingsArtcile = () =>{
+const  SavingsArtcile = ({title,current, target}) =>{
 
 
 
   return(
-      <article className="w-full flex p-2 py-3 items-center border-b-2">
+      <article className="flex p-2 py-3 items-center justify-between w-[100%] border-b-2">
 
           <span className='w-[45px] h-[45px] rounded-full bg-green-400 text-white text-2xl p-2 flex items-center justify-center'>
           <MdSavings/>
           </span>
-          <div className="ml-6 flex flex-col">
+
+          <div className="ml-3 flex flex-col w-[45%]">
       <span className='text-xs'> 
-          title
+          {title[0].toUpperCase() + title.slice(1)}
       </span>
       <span  className='text-xs'>
-          amount / remaining
+          {formatNumber(reduceGoalsCurr(current))} / {formatNumber(target)}
       </span>
 
-      <div className='h-[15px] my-1 bg-green-200 rounded-md'>
-          <div className='h-full bg-green-600 rounded-l-md w-[40%]'>
+    
+
+          </div>
+
+          <div className='h-[15px] my-1 bg-green-200 rounded-md w-[40%]'>
+          <div style={{
+            width: `${calcPercentage(reduceGoalsCurr(current), target )}%`
+          }} className='h-full bg-green-600 rounded-l-md'>
 
           </div>
       </div>
 
-
-          </div>
       </article>
   )
 }
 
-// const  IncomeArticle = () =>{
+const  IncomeArticle = ({date, amount, title}) =>{
 
+  return(
+      <article title={title} className="w-full flex p-2 py-3 items-center justify-between border-b-2">
 
+          <span className='w-[45px] h-[45px] rounded-full bg-green-400 text-white text-2xl p-2 flex items-center justify-center'>
+          <MdSavings/>
+          </span>
 
-//   return(
-    //   <article className="w-full flex p-2 py-3 items-center border-b-2">
+          <div className="ml-6 flex text-sm">
+{date}       
+   </div>
 
-    //       <span className='w-[45px] h-[45px] rounded-full bg-green-400 text-white text-2xl p-2 flex items-center justify-center'>
-    //       <MdSavings/>
-    //       </span>
-    //       <div className="ml-6 flex flex-col">
-    //   <span className='text-xs'> 
-    //       title
-    //   </span>
-    //   <span  className='text-xs'>
-    //       amount / remaining
-    //   </span>
-
-    //   <div className='h-[15px] my-1 bg-green-200 rounded-md'>
-    //       <div className='h-full bg-green-600 rounded-l-md w-[40%]'>
-
-    //       </div>
-    //   </div>
-
-
-//     //       </div>
-//     //   </article>
-//   )
-// }
+      <div className=' my-1  rounded-m'>
+       {formatNumber(amount)}
+      </div>
+      </article>
+  )
+}

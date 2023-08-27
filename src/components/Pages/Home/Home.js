@@ -7,6 +7,9 @@ import HomeCategories from './HomeCategories'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNewExpense, updateData } from '../../../store/user/userDataSlice'
 import {MdAdd} from 'react-icons/md'
+import AddNewForms from './AddNewForms'
+import { useState } from 'react'
+import LoadingView from '../Expenses/LoadingView'
 
 
 function Home() {
@@ -20,6 +23,8 @@ function Home() {
   const loading = useSelector(state => state.userData.loading)
   
   const dispatch = useDispatch()
+
+  const [addNewForms, setAddNewForms] = useState(false)
 
 
 
@@ -60,14 +65,27 @@ const userNameSplit = (name)=>{
 
       </article>
 
+   { addNewForms &&  <AddNewForms addNewForms={addNewForms} setAddNewForms={setAddNewForms}/>}
+
+   
+   {
+    loading &&
+    <LoadingView/>
+}
+
       <BalanceReportSection/>
 
 
           <button className='fixed right-12 bg-emerald-500 text-white p-3 z-10 bottom-10 sm:bottom-16  rounded-full text-2xl hover:border-2 
-          hover:border-emerald-500 hover:bg-transparent hover:text-emerald-500 transition-all'>
+          hover:border-emerald-500 hover:bg-transparent hover:text-emerald-500 transition-all' 
+          onClick={()=>setAddNewForms(true)}
+          >
           <MdAdd/>
             
+
           </button>
+
+
 
     <section className='w-[99%] p-2 flex flex-wrap '>
 
