@@ -124,13 +124,13 @@ li.classList.add('expand-height')
 
       <ul className='ml-14 text-sm' >
        <li className='expense-child'>
-       <NavLink >
+       <NavLink to={'expenses'} >
           Home
         </NavLink>
        </li>
 
        <li className='expense-child'>
-       <NavLink >
+       <NavLink to={'expenses/categories'}>
           Categories
         </NavLink>
        </li>

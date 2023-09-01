@@ -9,9 +9,9 @@ function CreateCategory({showChart, setShowChart}) {
 
 
   return (
-    <div className='flex w-[98%]  justify-between items-center my-1'>
+    <div className='flex w-[98%]  justify-between items-center my-1 px-2'>
 
-    <div className='text-sm'>
+    <div className='text-sm ml-3'>
       Categories
     </div>
 

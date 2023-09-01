@@ -39,16 +39,18 @@ const end = currentPage * postPerpage
 const [showFilter, setShowFilter] = useState(false)
 const [showFiltered, setShowFiltered] = useState('')
 
+const filteredNumberOfPages = Math.ceil(showFiltered.length / postPerpage)
+
 
   return ( 
     <section className='flex w-[99%] h-[99vh] md:h-[80vh] sm:h-[80vh] sm:justify-center relative'>
 
 
      
-       <div className={`history ${' flex flex-col h-[100%] w-[80%] sm:w-[99%] '}   relative`}
+       <div className={`history ${' flex flex-col h-[100%] w-[80%] sm:w-[99%] '}   relative` }
       >
 
-    {  !showFiltered &&  <div className="w-[100%] flex flex-col  sm:overflow-y-scroll h-[90%] border-2">
+    {  !showFiltered &&  <div className="w-[100%] flex flex-col  sm:overflow-y-scroll h-[90%] ">
 
         {sortArrByDate(mergeAllExpense(allExpense)).slice(start, end).map(exp =>{
           const {id} = exp 
@@ -59,17 +61,22 @@ const [showFiltered, setShowFiltered] = useState('')
           )
         })}
 
-        </div> || showFiltered &&   <div className="w-[100%] flex flex-col  sm:overflow-y-scroll h-[90%] border-2">
-sklfdklfsdsdfkjkl
+        </div> || showFiltered &&  <div className="w-[100%] flex flex-col  sm:overflow-y-scroll h-[90%]  filtered">
+          {showFiltered.slice(start, end).map(exp => {
+             const {id} = exp 
+             return(
+               <ExpenseArticle key={id} {...exp}/>
+             )
+          })}
 
-</div> } 
+</div>} 
 
 
 
     <div className="pagination h-[10%]  w-[100%] flex bottom-0  items-center p-2 justify-center ">
       
 
-      <Pagination currentPage={currentPage} numberOfPages={numberOfPages} prev={prev} next={next} />
+ {  !showFiltered && <Pagination currentPage={currentPage} numberOfPages={numberOfPages} prev={prev} next={next} /> || showFiltered && <Pagination currentPage={currentPage} numberOfPages={filteredNumberOfPages} prev={prev} next={next} /> }
     </div>
 
       </div>
@@ -84,7 +91,7 @@ sklfdklfsdsdfkjkl
 
 
 
-      <SearchFilters showFilter={showFilter} setShowFilter={setShowFilter} setShowFiltered={setShowFiltered}/>
+      <SearchFilters showFilter={showFilter} setShowFilter={setShowFilter} setShowFiltered={setShowFiltered} showFiltered={showFiltered}/>
     </section>
     )
 }

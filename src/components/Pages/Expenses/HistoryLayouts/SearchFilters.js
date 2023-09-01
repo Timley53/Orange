@@ -1,29 +1,129 @@
 import React, { useState,useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { mergeAllExpense } from '../../../../resources/utils'
+import { changeDateSort, mergeAllExpense, sortArrByDate } from '../../../../resources/utils'
 import {ImCross} from 'react-icons/im'
 
-function SearchFilters({showFilter, setShowFiltered, setShowFilter}) {
+function SearchFilters({showFilter, setShowFiltered, setShowFilter, showFiltered}) {
     const allExpense = useSelector( state => state.userData.userData?.expenses?.categories)
 
     const [CatChoice, setCatChoice] = useState('')
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
 
-    //onSubmit={handleSubmitfilter}
-
+// console.log(allExpense)
     const myarr = ['food', 'ent', 'utility' ]
 
-    const filterExpense = 
+    // const filterExpense = 
 
     function handleSubmitfilter(e){
         e.preventDefault()
-    console.log(startDate,endDate);
+    console.log(startDate,endDate,CatChoice);
+
+        if(!CatChoice  && !startDate && !endDate){
+            setCatChoice('')
+            setStartDate('')
+            setEndDate('')
+            setShowFiltered('')
+            setShowFilter(false)
+
+            return
+        }
+
+        if(CatChoice && !startDate && !endDate){
+            const categorySpecific = allExpense.filter(cat => CatChoice === cat.name)[0].exp.flat()
+            setShowFiltered(sortArrByDate(categorySpecific))
+            setCatChoice('')
+            setStartDate('')
+            setEndDate('')
+            setShowFilter(false)
+            
+        } 
+
+        //filter only startDate
+        if(!CatChoice && startDate && !endDate){
+            const categoryNstartDate = mergeAllExpense(allExpense).filter(exp =>{
+                return changeDateSort(exp.date) > (new Date(startDate))
+            })
+            setShowFiltered(sortArrByDate(categoryNstartDate))
+            setCatChoice('')
+            setStartDate('')
+            setEndDate('')
+            setShowFilter(false)
+            // console.log(categoryNstartDate)
+        }
+
+        //filter only endDate
+        if(!CatChoice && !startDate && endDate){
+            const categoryNstartDate = mergeAllExpense(allExpense).filter(exp =>{
+                return changeDateSort(exp.date) < (new Date(endDate))
+            })
+            setShowFiltered(sortArrByDate(categoryNstartDate))
+            setCatChoice('')
+            setStartDate('')
+            setEndDate('')
+            setShowFilter(false)
+            console.log(categoryNstartDate)
+        }
+
+
+        //filter by categorys and startDate 
+        if(CatChoice && startDate && !endDate){
+            const catNstartDate = allExpense.filter(cat =>cat.name === CatChoice
+            )[0].exp.filter(exp => changeDateSort(exp.date)  > (new Date(startDate)))
+            setShowFiltered(sortArrByDate(catNstartDate))
+            setCatChoice('')
+            setStartDate('')
+            setEndDate('')
+            setShowFilter(false)
+            console.log(catNstartDate)
+        }
+
+        //filter by catgeory and endDate
+        if(CatChoice && !startDate && endDate){
+            const catNendDate = allExpense.filter(cat =>cat.name === CatChoice
+                )[0].exp.filter(exp => changeDateSort(exp.date)  < (new Date(endDate)))
+                setShowFiltered(sortArrByDate(catNendDate))
+                setCatChoice('')
+                setStartDate('')
+                setEndDate('')
+                setShowFilter(false)
+                console.log(catNendDate)
+        } 
+
+
+
+        // filter by startDate and endDate
+        if(!CatChoice && startDate && endDate){
+            const dateFilter = mergeAllExpense(allExpense).filter(exp => {
+                return changeDateSort(exp.date) > (new Date(startDate)) && changeDateSort(exp.date) < (new Date(endDate))
+            })
+            setShowFiltered(sortArrByDate(dateFilter))
+            setCatChoice('')
+            setStartDate('')
+            setEndDate('')
+            setShowFilter(false)
+            console.log(dateFilter)
+        }
+
+        // filter by Catgeory and dates (both)
+        if(CatChoice && startDate && endDate){
+            const filteredCatDate = allExpense.filter(cat => cat.name === CatChoice)[0].exp.filter(exp => {
+                return changeDateSort(exp.date) > (new Date(startDate)) && changeDateSort(exp.date) < (new Date(endDate))
+            })
+            setShowFiltered(sortArrByDate(filteredCatDate))
+            setCatChoice('')
+            setStartDate('')
+            setEndDate('')
+            setShowFilter(false)
+            console.log(filteredCatDate)
+        }
+
+
     //   const  mergeAllExpense()
 
     }
   return (
-    <section className={`w-[40%] ${showFilter ?  'flex sm:flex sm:w-[100%] sm:fixed sm:z-30 sm:bg-slate-300 sm:bg-opacity-70 sm:top-0 sm:backdrop-blur-sm h-[100%]': 'flex sm:hidden'} flex-col  p-1 items-center   justify-center` } > 
+    <section className={`w-[40%] ${showFilter ?  'flex sm:flex sm:w-[100%] sm:fixed sm:z-30 sm:bg-slate-300 sm:bg-opacity-70 sm:top-0 sm:backdrop-blur-sm h-[100%] ': 'flex sm:hidden'} flex-col  p-1 items-center   justify-center border-l-2` } > 
 
 <div className=" hidden  w-[90%] sm:flex items-end justify-end"  >
     <button className='self-end p-2 text-lg my-6 text-red-500' 
@@ -36,7 +136,7 @@ onClick={(e)=> {
     </button>
 </div>
 
-<form className='flex w-[100%] flex-col  p-1 items-center   justify-center'>
+<form className='flex w-[100%] flex-col  p-1 items-center   justify-center' onSubmit={handleSubmitfilter}>
 
 
 
@@ -46,14 +146,15 @@ onClick={(e)=> {
 
             <select name="FilterByCategories" id="FilterByCategories" onChange={(e)=> setCatChoice(e.target.value)} className='p-2 m-3 w-[80%] border-2 border-orange-400 text-orange-600 bg-orange-100 rounded-md' >
 
-                <option value="default" defaultValue={'default'} >
+                <option value="" defaultValue={''} >
                     Default
                 </option>
 
-            {myarr.map((cat,i)=>{
+            {allExpense.map((cat,i)=>{
+
             return(
-                <option value={cat} key={i+1}>
-                    {cat}
+                <option value={cat.name} key={i + 1}>
+                    {cat.name}
                 </option>
             )
 

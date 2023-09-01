@@ -274,6 +274,11 @@ return expArr.map(exp =>{
 
 }
 
+export function calcExp(expArr){
+  return expArr.reduce((acc, curr) => {
+    return acc + curr.value
+  },0)
+}
 
 export function overallTotalExp (categoriesArr){
 

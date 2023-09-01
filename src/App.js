@@ -15,6 +15,10 @@ import Home from './components/Pages/Home/Home';
 import Saving from './components/Pages/Savings/Saving';
 import IncomeSavings from './components/Pages/Income-savings/IncomeSavings'
 import ExpHistory from './components/Pages/Expenses/HistoryLayouts/ExpHistory';
+import CategoryGrids from './components/Pages/Expenses/CategoryGrids';
+import AddNew from './components/Pages/Expenses/AddNew/AddNew';
+import Income from './components/Pages/Income/Income';
+import IncomeHome from './components/Pages/Income/IncomeHome';
 const router = createBrowserRouter(
   createRoutesFromElements(
       <Route path='/'  element={<AppLayout/>}>
@@ -23,14 +27,25 @@ const router = createBrowserRouter(
 
 
         <Route path='/dashboard' element={<Dashboard/>}>
+
+    {/*  dashboard home routes */}
     <Route index element={<Home/>}/>
 
+    {/*  expenses routes */}
     <Route path='expenses' element={<Expenses/>}> 
     <Route index element ={<ExpHistory/>}/>
+    <Route path='categories' element ={<CategoryGrids/>}/>
+    <Route path='addnew' element ={<AddNew/>}/>
+
   
     </Route>
 
-    <Route path='income' element={<IncomeSavings/>}/>
+    {/* income routes */}
+
+    <Route path='income' element={<Income/>}>
+    <Route index element ={<IncomeHome/>}/>
+
+    </Route>
 
 
     <Route path='savings' element={<Saving/>}>

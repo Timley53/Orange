@@ -10,7 +10,7 @@ function AddNew() {
 
     <article className='tab w-[90%] bg-gray-200 p-2 flex m-2 my-3'>
 
-        <button className={`w-[50%] ${ showAddNew ? ' bg-white shadow-md': ''} p-2 rounded-sm`} onClick={()=>setShowAddNew(true)}>Add expense</button>
+        <button className={`w-[50%] ${ showAddNew ? ' bg-white shadow-md': ''} p-2 rounded-sm`} onClick={()=>setShowAddNew(true)}>Add expense </button>
 
         <button className={`w-[50%] ${ !showAddNew ? ' bg-white shadow-md': ''}`} onClick={()=>setShowAddNew(false)}>Create category </button>
 

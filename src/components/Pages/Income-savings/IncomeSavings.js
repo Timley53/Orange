@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import Income from './Income'
+import Income from '../Income/Income'
 import Savings from './Saving/Savings'
 import {GrTransaction} from 'react-icons/gr'
 import { MdOutlineSavings } from 'react-icons/md'

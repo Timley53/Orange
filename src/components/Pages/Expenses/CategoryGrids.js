@@ -20,7 +20,7 @@ function CategoryGrids() {
       <CreateCategory showChart={showChart} setShowChart={setShowChart}/>
 
 
-    <div className='flex relative w-[98%]  rounded-md sm:rounded-none sm:w-[100%] my-2'>
+    <div className='flex relative w-[100%]  rounded-md sm:rounded-none sm:w-[100%] my-2'>
    
     
    

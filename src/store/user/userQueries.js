@@ -213,10 +213,71 @@ docData.income = [
 
 
         }catch(err){
-
+ throw new Error(err.message)
         }
 })
 
+export const editCategories = createAsyncThunk('userQuieries/editCategories',  async (params, ThunkApi)=>{
+
+    try{
+        const {  userId, BudgetId, editbudget} = params
+
+        // console.log(userId)
+
+        const docRef = doc(database, 'users', userId)
+        
+        const getDocResponse = await getDoc(docRef)
+        console.log(getDocResponse)
+
+
+        if(getDocResponse.exists()){
+            const docData = getDocResponse.data()
+        // console.log(docData);
+
+            docData.expenses.categories = docData.expenses.categories.map(cat => {
+                if(cat.id === BudgetId){
+                    return {
+                        ...cat,
+                        budget: +editbudget,
+                    }
+                } else{
+                    return cat
+                }
+            })
+
+        // console.log(docData);
+     await setDoc(docRef,docData) 
+        }
+
+
+    }catch(err){
+throw new Error(err.message)
+    }
+})
+
+
+
+export const deleteCategories = createAsyncThunk('userQuieries/deleteCategories', async (params, ThunkApi)=>{
+    try{
+        const {userId, id} = params
+
+        
+        const docRef = doc(database, 'users', userId)
+        
+        const getDocResponse = await getDoc(docRef)
+        console.log(getDocResponse)
+
+
+        if(getDocResponse.exists()){
+            const docData = getDocResponse.data()
+            docData.expenses.categories = docData.expenses.categories.filter(cat => cat.id !== id)
+            await setDoc(docRef,docData) 
+        }
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+})
 
 
 const userQueriesSlice = createSlice({
@@ -266,6 +327,44 @@ const userQueriesSlice = createSlice({
                 state.error = actions.error.message
         })
     
+
+        //====> edit Categories budget  
+        //create category
+builder.addCase(editCategories.pending, (state, actions)=>{
+    state.loading = true
+
+});
+
+builder.addCase(editCategories.fulfilled, (state, actions)=>{
+    // state.loading = false
+    state.successMessage = 'Budget category Edited '
+    // state.success = true
+})
+
+builder.addCase(editCategories.rejected, (state, actions)=>{
+        state.error = actions.error.message
+})
+
+
+        
+        //====> delete Categories budget  
+        //delete Categories
+builder.addCase(deleteCategories.pending, (state, actions)=>{
+    state.loading = true
+
+});
+
+builder.addCase(deleteCategories.fulfilled, (state, actions)=>{
+    // state.loading = false
+    state.successMessage = 'Budget category deleted '
+    // state.success = true
+})
+
+builder.addCase(deleteCategories.rejected, (state, actions)=>{
+        state.error = actions.error.message
+})
+
+
         
         //========>>>>>>>>
         //========>>>>>>>>
@@ -303,7 +402,7 @@ const userQueriesSlice = createSlice({
     
     //========>>>>>>>>
 
-    //========>>>>>>>>
+        //========>>>>>>>>
         //===========>>addIncome 
         builder.addCase(addIncome.pending, (state, actions)=>{
             state.loading = true

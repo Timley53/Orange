@@ -8,7 +8,9 @@ import AddNew from './AddNew/AddNew'
 import ExpenseSideBar from './ExpenseSideBar'
 import { useSelector } from 'react-redux'
 import LoadingView from './LoadingView'
-import { Outlet } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
+import { BsPlus, BsPlusLg } from 'react-icons/bs'
+import { AiOutlineHome } from 'react-icons/ai'
 
 function Expenses() {
     // console.log(window.location);
@@ -54,15 +56,54 @@ function Expenses() {
 
     <main className={`w-[75%] h-[90%] sm:w-[99%] md:w-[99%] md:mx-auto flex flex-col items-center justify-center overflow-edit `} >
 
-      <div className=" my-2 justify-between w-[100%] hidden  p-2 md:flex">
+      <div className=" my-2  w-[100%] hidden  p-2 md:flex" >
 
 
-<button className=' text-orange-600 text-xl' onClick={()=>setShowSide(!showSide)} >
+
+
+ <NavLink to={'/dashboard/expenses'}  className={"mx-1 mr-3 flex items-center border-2 border-orange-400 p-1 px-1 rounded-md text-orange-500 hover:bg-orange-400 hover:text-white transition-all"}>
+          <button className=' text-xl  hover:text-white '>
+            <AiOutlineHome/>
+            </button>
+            <span className=' sm:hidden mx-1 sm:mx-0  text-xs '>
+              Home
+            </span>
+      </NavLink>
+
+
+ <NavLink to={'addnew'}  className={"mx-2 flex items-center border-2 border-orange-400 p-1 px-1 rounded-md text-orange-500 hover:bg-orange-400 hover:text-white transition-all"}>
+          <button className=' text-xl  hover:text-white '>
+            <BsPlusLg/>
+            </button>
+
+            <span className=' sm:hidden mx-1 sm:mx-0  text-xs'>
+              Add new
+            </span>
+      </NavLink>
+
+
+ <NavLink to={'categories'}  className={"mx-2 flex items-center border-2 border-orange-400 p-1 px-1 rounded-md text-orange-500 hover:bg-orange-400 hover:text-white transition-all"}>
+          <button className=' text-xl  hover:text-white '>
+            <MdOutlineCategory/>
+            </button>
+
+            <span className='sm:hidden mx-1 sm:mx-0  text-xs'>
+              Categories
+            </span>
+      </NavLink>
+
+
+      <button className=' text-orange-600 text-2xl px-1' onClick={()=>setShowSide(!showSide)} >
 <MdViewSidebar/>
  </button>
 
+
       </div>
-    <section className='w-[100%] h-[100%] border-2 border-red-500'>
+    <section className='w-[100%] h-[100%]  '>
+      
+       {
+  // border-red-500 border-2
+}
 
     <Outlet/>
 

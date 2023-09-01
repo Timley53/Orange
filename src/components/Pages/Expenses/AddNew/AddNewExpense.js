@@ -47,12 +47,12 @@ const userId = useSelector(state => state.userData.DocumentId)
 
 
   return (
-    <div className='w-[90%] flex items-center flex-col sm:pb-16 '>
+    <div className='w-[80%] flex items-center flex-col sm:pb-16 '>
 
 
         <h1 className='text-base'>Add New Expense</h1>
 
-        <form action="" className='w-[50%] md:w-[60%]  sm:w-[100%] flex  flex-col items-start justify-center  py-4 ' 
+        <form action="" className='w-[50%] md:w-[60%]  sm:w-[100%] flex  flex-col items-start justify-center  py-2 ' 
         onSubmit={handleSubmit}
         >
 

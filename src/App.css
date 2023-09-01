@@ -173,6 +173,16 @@ body{
     /* border-top-right-radius: -2rem; */
     /* width: ; */
   }
+
+  .overflow-edit::-webkit-scrollbar-thumb{
+  display: none;
+  
+}
+
+.overflow-edit::-webkit-scrollbar {
+  /* width: 0px; */
+  display: none;
+}
 }
 
 
