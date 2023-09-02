@@ -37,9 +37,9 @@ const userId = useSelector(state => state.userData.DocumentId)
             userId
         }))
 
-        if(setAddNewForms){
-            setAddNewForms(false)
-        } 
+        // if(setAddNewForms){
+        //     setAddNewForms(false)
+        // } 
 
 
     }
@@ -72,11 +72,18 @@ const userId = useSelector(state => state.userData.DocumentId)
     <label htmlFor="newExpenseCategories" className=" mb-0 text-sm ml-14">
         Select Categories
     </label>
+    
 
             <select name="newExpenseCategories" id="" className='border-2 border-orange-400 rounded ml-14 mt-1' 
-            value={chooseCategories}
-            onChange={(e)=> setChooseCategories(e.target.value)}
+            value={chooseCategories} 
+            onChange={(e)=>{ setChooseCategories(e.target.value)
+                setErrorInput('')
+            }}
              required>
+
+                <option value="">
+                    Default
+                </option>
 
         {categories.map((cate, i) => {
             return(

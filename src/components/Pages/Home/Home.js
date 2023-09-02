@@ -6,11 +6,13 @@ import HomeIncomeAndSavings from './TransactionIncome'
 import HomeCategories from './HomeCategories'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNewExpense, updateData } from '../../../store/user/userDataSlice'
-import {MdAdd} from 'react-icons/md'
+import {MdAdd, MdSave, MdSavings} from 'react-icons/md'
 import AddNewForms from './AddNewForms'
 import { useState } from 'react'
 import LoadingView from '../Expenses/LoadingView'
-
+import { NavLink } from 'react-router-dom'
+import { FaPiggyBank } from 'react-icons/fa'
+import { AiFillBank, AiOutlineTransaction } from 'react-icons/ai'
 
 function Home() {
 
@@ -24,7 +26,7 @@ function Home() {
   
   const dispatch = useDispatch()
 
-  const [addNewForms, setAddNewForms] = useState(false)
+  const [addNew, setAddNew] = useState(false)
 
 
 
@@ -65,7 +67,7 @@ const userNameSplit = (name)=>{
 
       </article>
 
-   { addNewForms &&  <AddNewForms addNewForms={addNewForms} setAddNewForms={setAddNewForms}/>}
+   {/* { addNewForms &&  <AddNewForms addNewForms={addNewForms} setAddNewForms={setAddNewForms}/>} */}
 
    
    {
@@ -76,14 +78,54 @@ const userNameSplit = (name)=>{
       <BalanceReportSection/>
 
 
-          <button className='fixed right-12 bg-emerald-500 text-white p-3 z-10 bottom-10 sm:bottom-16  rounded-full text-2xl hover:border-2 
-          hover:border-emerald-500 hover:bg-transparent hover:text-emerald-500 transition-all' 
-          onClick={()=>setAddNewForms(true)}
+
+          <div className={`fixed ${addNew ? 'h-auto w-auto transition-all':'h-[55px] w-[55px] items-end'} overflow-hidden right-12 flex flex-col bottom-10 sm:bottom-16 rounded-md bg-slate-100 backdrop-blur-md z-10`} >
+
+      
+          <button className=' bg-emerald-500 text-white p-3 m-1 z-10   rounded-full text-2xl hover:border-2 
+          hover:border-emerald-500 hover:bg-transparent hover:text-emerald-500 transition duration-150 self-end' 
+          onClick={()=>setAddNew(!addNew)}
           >
           <MdAdd/>
-            
-
           </button>
+          
+          <NavLink to={''} className=' w-[90%] flex text-black items-center  my-1 mx-2 text-sm  justify-between' 
+          
+          >
+            <span className='mr-1'>
+              Add Income
+            </span>
+
+            <span className="p-2   bg-emerald-500  text-lg rounded-full text-white"> 
+          <MdSavings/>
+
+            </span>
+          </NavLink>
+
+
+          <NavLink to={' expenses/addnew'} className='flex justify-between w-[90%]  text-black items-center my-1 mx-2  text-sm' 
+          
+          >
+
+            <span className='mr-1'>
+              Add Expense
+            </span>
+
+<span className="p-2 text-white   bg-emerald-500  text-lg rounded-full"> 
+          <AiOutlineTransaction/>
+
+            </span>
+          </NavLink>
+
+
+       
+
+
+
+          </div>
+
+
+     
 
 
 

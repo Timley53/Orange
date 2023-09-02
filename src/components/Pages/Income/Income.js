@@ -28,7 +28,7 @@ onClick={()=> setShowSetbar(!showSidebar)}
 
       <section className='w-[100%] h-[100%]  flex'>
 
-      <main className={` ${showSidebar ? 'w-[80%] md:w-[100%] ': 'w-[80%] md:w-[100%]'} md:w-[75%] h-[100%] border-2  border-red-600`}>
+      <main className={` ${showSidebar ? 'w-[80%] md:w-[100%] ': 'w-[80%] md:w-[100%]'} h-[100%] border-2  border-red-600`}>
         <Outlet/>
         </main>
 
