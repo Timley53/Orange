@@ -89,7 +89,7 @@ const userNameSplit = (name)=>{
           <MdAdd/>
           </button>
           
-          <NavLink to={''} className=' w-[90%] flex text-black items-center  my-1 mx-2 text-sm  justify-between' 
+          <NavLink to={'income/addnew'} className=' w-[90%] flex text-black items-center  my-1 mx-2 text-sm  justify-between' 
           
           >
             <span className='mr-1'>

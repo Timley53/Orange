@@ -19,6 +19,8 @@ import CategoryGrids from './components/Pages/Expenses/CategoryGrids';
 import AddNew from './components/Pages/Expenses/AddNew/AddNew';
 import Income from './components/Pages/Income/Income';
 import IncomeHome from './components/Pages/Income/IncomeHome';
+import IncomeForm from './components/Pages/Income/IncomeForm';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
       <Route path='/'  element={<AppLayout/>}>
@@ -43,7 +45,9 @@ const router = createBrowserRouter(
     {/* income routes */}
 
     <Route path='income' element={<Income/>}>
+
     <Route index element ={<IncomeHome/>}/>
+    <Route path='addnew' element ={<IncomeForm/>}/>
 
     </Route>
 

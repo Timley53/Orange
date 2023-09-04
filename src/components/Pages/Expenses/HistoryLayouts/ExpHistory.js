@@ -50,7 +50,7 @@ const filteredNumberOfPages = Math.ceil(showFiltered.length / postPerpage)
        <div className={`history ${' flex flex-col h-[100%] w-[80%] sm:w-[99%] '}   relative` }
       >
 
-    {  !showFiltered &&  <div className="w-[100%] flex flex-col  sm:overflow-y-scroll h-[90%] ">
+    { ( !showFiltered && sortArrByDate(mergeAllExpense(allExpense)).length > 0 &&  <div className="w-[100%] flex flex-col  sm:overflow-y-scroll h-[90%] ">
 
         {sortArrByDate(mergeAllExpense(allExpense)).slice(start, end).map(exp =>{
           const {id} = exp 
@@ -61,7 +61,14 @@ const filteredNumberOfPages = Math.ceil(showFiltered.length / postPerpage)
           )
         })}
 
-        </div> || showFiltered &&  <div className="w-[100%] flex flex-col  sm:overflow-y-scroll h-[90%]  filtered">
+        </div>)  || ( !showFiltered && sortArrByDate(mergeAllExpense(allExpense)).length < 1 && 
+          <div className="w-[100%] flex items-center justify-center  h-[90%]">
+          <h3 className="m-auto">No Expense recorded</h3>
+      </div>)
+        
+}
+ {       
+  (     showFiltered && showFiltered.length > 0 &&  <div className="w-[100%] flex flex-col  sm:overflow-y-scroll h-[90%]  filtered">
           {showFiltered.slice(start, end).map(exp => {
              const {id} = exp 
              return(
@@ -69,7 +76,11 @@ const filteredNumberOfPages = Math.ceil(showFiltered.length / postPerpage)
              )
           })}
 
-</div>} 
+</div> ) || (showFiltered && showFiltered.length < 1 && <div className="w-[100%] flex items-center justify-center  h-[90%]">
+          <h3 className="m-auto">No Expense recorded</h3>
+      </div>)
+
+} 
 
 
 

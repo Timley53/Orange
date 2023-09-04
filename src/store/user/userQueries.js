@@ -50,7 +50,7 @@ async (params, ThunkApi)=>{
             }
 
         })
-        console.log(docData);
+        // console.log(docData);
 
         await setDoc(docRef,docData) 
         
@@ -66,6 +66,47 @@ async (params, ThunkApi)=>{
 
 }
 )
+
+
+export const deleteExpense = createAsyncThunk('userQuieries/deleteExpense', async (params, ThunkApi)=>{
+    try{
+
+     
+        const {id,  userId} = params
+
+        const docRef = doc(database, 'users', userId)
+        
+        
+        const getDocResponse = await getDoc(docRef)
+        
+        if(getDocResponse.exists()){
+
+            const docData = getDocResponse.data()
+
+            docData.expenses.categories = docData.expenses.categories.map(cat =>{
+                const {name} = cat
+                const categoryName = id.split('/')[0]
+
+                if(name === categoryName){
+                    return {
+                        ...cat,
+                        exp: cat.exp.filter(exp => exp.id !== id)
+                    }
+                }else{
+                    return cat
+                }
+            })
+
+            // console.log(docData);
+        await setDoc(docRef,docData) 
+
+
+        }
+    }catch(err){
+    throw new Error(err.message)
+
+    }
+})
 
 export const createCategory = createAsyncThunk('userQuieries/createCategory', 
 async (params, ThunkApi)=>{
@@ -207,7 +248,7 @@ docData.income = [
 
     }
 ]
-            // console.log(docData);
+            console.log(docData);
          await setDoc(docRef,docData) 
             }
 
@@ -216,6 +257,31 @@ docData.income = [
  throw new Error(err.message)
         }
 })
+
+export const deleteIncome = createAsyncThunk('userQuieries/deleteIncome', async (params, ThunkApi)=>{
+    try{
+
+        const {userId, id} = params
+
+        const docRef = doc(database, 'users', userId)
+        
+        const getDocResponse = await getDoc(docRef)
+
+        if(getDocResponse.exists()){
+            const docData = getDocResponse.data()
+            docData.income = docData.income.filter(inc => inc.id !== id)
+
+            // console.log(docData);
+            await setDoc(docRef,docData) 
+        }
+        
+    }catch(err){
+        
+        throw new Error(err.message)
+    }
+})
+
+
 
 export const editCategories = createAsyncThunk('userQuieries/editCategories',  async (params, ThunkApi)=>{
 
@@ -414,6 +480,40 @@ builder.addCase(deleteCategories.rejected, (state, actions)=>{
         })
 
         builder.addCase(addIncome.rejected, (state, actions)=>{
+            state.error = actions.error.message
+    })
+
+
+    
+
+        //========>>>>>>>>
+        //===========>>deleteIncome 
+        builder.addCase(deleteIncome.pending, (state, actions)=>{
+            state.loading = true
+        })
+
+        
+        builder.addCase(deleteIncome.fulfilled, (state, actions)=>{
+            state.successMessage = 'Income successfully deleted'
+        })
+
+        builder.addCase(deleteIncome.rejected, (state, actions)=>{
+            state.error = actions.error.message
+    })
+
+
+        //========>>>>>>>>
+        //===========>>deleteExpense 
+        builder.addCase(deleteExpense.pending, (state, actions)=>{
+            state.loading = true
+        })
+
+        
+        builder.addCase(deleteExpense.fulfilled, (state, actions)=>{
+            state.successMessage = 'Expense successfully deleted'
+        })
+
+        builder.addCase(deleteExpense.rejected, (state, actions)=>{
             state.error = actions.error.message
     })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { AiFillMoneyCollect } from 'react-icons/ai'
 import { MdCancel, MdDelete, MdFilter } from 'react-icons/md'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { mergeAllExpense, changeDateSort, sortArrByDate, formatNumber } from '../../../resources/utils'
 import { Pagination } from '../Expenses/HistoryLayouts/ExpHistory'
 import { createContext } from 'react'
@@ -10,108 +10,21 @@ import { useContext } from 'react'
 // import React, { useState,useEffect } from 'react'
 import {ImCross} from 'react-icons/im'
 import { BsFilter } from 'react-icons/bs'
+import { GiBroom } from 'react-icons/gi'
+import { deleteIncome } from '../../../store/user/userQueries'
 
 export const IncomeHomeContext = createContext(null)
 
 
 function IncomeHome() {
 
-    const testIncomeArr = [
-        {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/09/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/11/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/12/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/01/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 200,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 211,
-            date: '11/04/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 211,
-            date: '11/10/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 211,
-            date: '11/09/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 211,
-            date: '11/01/2022'
-        },
-            {
-            title: 'Fiver Gig',
-            amount: 211,
-            date: '11/06/2022'
-        },
-    
-
-]
-
+ 
     const allIncome = useSelector( state => state.userData.userData?.income)
 
     const [postPerpage, setpostPerpage] = useState(8)
     const [currentPage, setcurrentPage] = useState(1)
   
-    const numberOfPages = Math.ceil(testIncomeArr.length / postPerpage)
+    const numberOfPages = Math.ceil(allIncome.length / postPerpage)
   
   const start = (currentPage - 1) * postPerpage
   const end = currentPage * postPerpage 
@@ -138,22 +51,20 @@ const filteredNumberOfPages = Math.ceil(showFiltered.length / postPerpage)
   
 
   return (
-    <IncomeHomeContext.Provider value={{currentPage, setcurrentPage, numberOfPages,filteredNumberOfPages,showFiltered, setShowFiltered,showFilter, setShowFilter,start,end,next,prev, testIncomeArr}}>
+    <IncomeHomeContext.Provider value={{currentPage, setcurrentPage, numberOfPages,filteredNumberOfPages,showFiltered, setShowFiltered,showFilter, setShowFilter,start,end,next,prev}}>
 
 
     <div className='p-1 w-[100%] relative flex h-[100%] '>
 
         <IncomeHistory/>
 
-        <button className='hidden sm:flex p-1 absolute text-4xl  text-black -top-9 right-1 ' 
+        <button className='hidden sm:flex p-1 absolute text-4xl  text-emerald-500 -top-12 right-1' 
         onClick={(e)=>setShowFilter(true)}
         >
             <BsFilter/>
         </button>
 
-        <IncomeFilter testIncomeArr={testIncomeArr}/>
-
-        
+        <IncomeFilter />
 
     </div>
     </IncomeHomeContext.Provider>
@@ -164,8 +75,8 @@ export default IncomeHome
 
 
 
-export function IncomeFilter({testIncomeArr}) {
-    const allExpense = useSelector( state => state.userData.userData?.expenses?.categories)
+export function IncomeFilter({}) {
+  const allIncome = useSelector( state => state.userData.userData?.income)
 
     const {showFiltered, setShowFiltered,showFilter, setShowFilter} = useContext(IncomeHomeContext)
 
@@ -176,7 +87,12 @@ export function IncomeFilter({testIncomeArr}) {
 
 // console.log(allExpense)
 
-    // const filterExpense = 
+
+    const clearInputs = ()=>{
+      setHighOrLow('')
+      setStartDate('')
+      setEndDate('')
+    }
 
     function handleSubmitfilter(e){
         e.preventDefault()
@@ -185,52 +101,69 @@ export function IncomeFilter({testIncomeArr}) {
         
         if(startDate && !endDate && !highOrLow ){
 
-          console.log(new Date(startDate));
-          console.log(testIncomeArr);
-          const startDateFilter = testIncomeArr.filter(inc => {
+          // console.log(new Date(startDate));
+          // console.log(allIncome);
+          const startDateFilter = allIncome.filter(inc => {
             return changeDateSort(inc.date) > (new Date(startDate))
           })
 
-          console.log(sortArrByDate(startDateFilter));
-          //setShowFiltered == setShowFilter
+          setShowFiltered(sortArrByDate(startDateFilter));
+          setShowFilter(false)
+          clearInputs()
 
         }  
 
         if(!startDate && endDate && !highOrLow ){
-          const endDateFilter = testIncomeArr.filter(inc => {
+          const endDateFilter = allIncome.filter(inc => {
             return changeDateSort(inc.date) < (new Date(endDate))
           })
 
-          console.log(sortArrByDate(endDateFilter));
+          // console.log(sortArrByDate(endDateFilter));
           //setShowFiltered == setShowFilter
+          setShowFiltered(sortArrByDate(endDateFilter));
+          setShowFilter(false)
+          clearInputs()
         }
  
-          if(!startDate && !endDate && (highOrLow === 'high')){
-            const highEstToLow = testIncomeArr.sort((a, b) => {
+          if(!startDate && !endDate && (highOrLow  === 'high')){
+            const highEstToLow = allIncome.sort((a, b) => {
               return b.amount - a.amount
             })
 
-            console.log(highEstToLow);
+            // console.log(highEstToLow);
+            setShowFiltered(highEstToLow);
+            // console.log(showFiltered);
+            setShowFilter(false)
+            clearInputs()
+            
+            
 
           }
 
           
  
           if(!startDate && !endDate && (highOrLow === 'low')){
-            const highEstToLow = testIncomeArr.sort((a, b) => {
+            const lowToHigh = allIncome.sort((a, b) => {
               return b.amount - a.amount
             }).reverse()
 
-            console.log(highEstToLow);
+            // console.log(highEstToLow);
+            setShowFiltered(lowToHigh);
+            setShowFilter(false)
+            clearInputs()
+            
 
           }
 
           if(startDate && endDate && !highOrLow){
-            const filterByDate = testIncomeArr.filter(inc => {
+            const filterByDate = allIncome.filter(inc => {
               return( changeDateSort(inc.date) > (new Date(startDate))) && (changeDateSort(inc.date) < (new Date(endDate)))
             })
 
-            console.log(sortArrByDate(filterByDate));
+            setShowFiltered(sortArrByDate(filterByDate));
+            setShowFilter(false)
+            clearInputs()
+          
 
           }
 
@@ -268,22 +201,36 @@ export function IncomeFilter({testIncomeArr}) {
             <input type="date" name="to" id="to" value={endDate} onChange={(e)=>setEndDate(e.target.value)} />
           </div>
     
-          <div className="flex items-center w-[80%] md:w-[90%] my-2">
+          <div className="flex justify-between items-center w-[80%] md:w-[90%] my-2">
     
-            <span className='m-2  p-2 border-2 rounded cursor-pointer' onClick={(e)=>setHighOrLow('high')}>
+            <span className={`m-2 ${highOrLow === 'high' ? 'bg-emerald-700 text-white': '' }  p-2 border-2 rounded cursor-pointer w-[48%] text-center`} onClick={(e)=>setHighOrLow('high')}>
               Highest to Lowest 
             </span>
     
-        <span className='m-2 p-2 border-2 rounded cursor-pointer' onClick={(e)=>setHighOrLow('low')}>
+        <span className={`m-2 p-2  ${highOrLow === 'low' ? 'bg-amber-500 text-white': '' }  border-2 rounded cursor-pointer w-[48%] text-center`} onClick={(e)=>setHighOrLow('low')}>
           Lowest to Highest
         </span>
     
           </div>
     
-    
-          <button className='p-2 px-3  bg-emerald-700 hover:bg-emerald-500 text-white w-[80%] m-2 '>
+
+    <div className="flex items-center justify-between w-[90%] p-1">
+
+          <button className='p-2  bg-emerald-700 hover:bg-emerald-500 text-white w-[70%] m-2 '>
             Filter
             </button>
+
+            <span className='text-xl bg-rose-600 hover:bg-rose-400 flex items-center w-[20%]  text-center p-2 rounded-sm  text-white' onClick={()=>{
+              setShowFiltered('')
+              clearInputs()
+              setShowFilter(false)
+            }}>
+              <GiBroom className='mx-auto'/>
+            </span>
+
+    
+    </div>
+    
         
         </form>
       )
@@ -337,32 +284,32 @@ function IncomeHistory(){
 
     const allIncome = useSelector( state => state.userData.userData?.income)
 
-    const {showFiltered,currentPage,numberOfPages,prev,next,filteredNumberOfPages, testIncomeArr, end, start, showFilter, setShowFilter} = useContext(IncomeHomeContext)
+    const {showFiltered,currentPage,numberOfPages,prev,next,filteredNumberOfPages,  end, start, showFilter, setShowFilter} = useContext(IncomeHomeContext)
 
 
     return(
-      <div className={`h-[100%] border-2 w-[60%]  flex flex-col sm:w-[100%]`}>
+      <div className={`h-[100%]  w-[60%]  flex flex-col sm:w-[100%]`}>
 
         {
-          (  !showFiltered && testIncomeArr.length > 0 && <div className="w-[100%] h-[90%] flex flex-col border-2">
+          (  !showFiltered && allIncome?.length > 0 && <div className="w-[100%] h-[90%] flex flex-col ">
 
-                {testIncomeArr.slice(start, end).map((inc, i) =>{
+                {allIncome.slice(start, end).map((inc, i) =>{
                     return(
                         <IncomeArticle key={i + 1}  {...inc}/>
                     )
                 })} 
 
 
-            </div>)  ||( !showFiltered && testIncomeArr.length < 1 && <div className="w-[100%] flex items-center justify-center  h-[90%]">
+            </div>)  ||( !showFiltered && allIncome?.length < 1 && <div className="w-[100%] flex items-center justify-center  h-[90%]">
                 <h3 className="m-auto">No income added</h3>
             </div>)
 
         }
 
         {
-          (  showFiltered && testIncomeArr.length > 0 && <div className="w-[100%] h-[90%] flex flex-col border-2">
+          (  showFiltered && showFiltered?.length > 0 && <div className="w-[100%] h-[90%] flex flex-col ">
 
-          {testIncomeArr.slice(start, end).map((inc, i) =>{
+          {showFiltered.slice(start, end).map((inc, i) =>{
               return(
                   <IncomeArticle key={i + 1} {...inc}/>
               )
@@ -393,6 +340,16 @@ function IncomeHistory(){
   
   function IncomeArticle({amount, title, id, date}){
 
+    const userId = useSelector((state)=> state.userData?.DocumentId)
+    const dispatch = useDispatch()
+
+    const deleteItem = ()=>{
+      dispatch(deleteIncome({
+        userId,
+        id
+      }))
+    }
+
 
     return(
       <article className="w-[100%] flex p-2 py-1 items-center justify-between border-b-2">
@@ -418,7 +375,7 @@ function IncomeHistory(){
     {formatNumber(amount)}
   </div>
   
-  <button className='text-lg p-2  hover:text-rose-400 mx-5'>
+  <button className='text-lg p-2  hover:text-rose-400 mx-5' onClick={(e)=>deleteItem()}>
     <MdDelete/>
   </button>
   

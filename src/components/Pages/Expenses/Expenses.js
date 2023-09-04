@@ -7,7 +7,6 @@ import ExpHistory from './HistoryLayouts/ExpHistory'
 import AddNew from './AddNew/AddNew'
 import ExpenseSideBar from './ExpenseSideBar'
 import { useSelector } from 'react-redux'
-import LoadingView from './LoadingView'
 import { NavLink, Outlet } from 'react-router-dom'
 import { BsPlus, BsPlusLg } from 'react-icons/bs'
 import { AiOutlineHome } from 'react-icons/ai'
@@ -19,7 +18,8 @@ function Expenses() {
     const [showAdd, setShowAdd] = useState(false)
     const [showCategory, setShowCategory] = useState(false)
 
-    const queriesLoading = useSelector((state)=> state.userQueries.loading)
+   
+
 
     // console.log(queriesLoading);
 
@@ -51,7 +51,6 @@ function Expenses() {
   return (
     <div className=' sm:p-0 md:mt-[4rem] sm:mt-[3.3rem] flex'>
 
-{queriesLoading && <LoadingView/>}
 
 
     <main className={`w-[75%] h-[90%] sm:w-[99%] md:w-[99%] md:mx-auto flex flex-col items-center justify-center overflow-edit `} >

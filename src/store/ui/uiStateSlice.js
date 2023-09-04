@@ -9,7 +9,12 @@ const uiStateSlice =  createSlice({
     name: 'uiState',
     initialState,
     reducers:{
-        openCloseMenu: (state) =>{
+        openCloseMenu: (state, action) =>{
+                if(action.payload){
+                    state.openMenu = false
+                    return
+                }
+
             state.openMenu = !state.openMenu
         }
     }

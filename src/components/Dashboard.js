@@ -14,6 +14,7 @@ import HomeHeader from './Pages/Home/HomeHeader'
 import { listenToUserData, updateData } from '../store/user/userDataSlice'
  import { database } from '../resources/firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
+import LoadingView from './Pages/Expenses/LoadingView'
 
 
 
@@ -31,7 +32,7 @@ function Dashboard() {
 
 
   const userDataLoading = useSelector(state => state.userData.loading)
-  
+  const queriesLoading = useSelector((state)=> state.userQueries.loading)
 
 
 
@@ -110,6 +111,15 @@ function Dashboard() {
 
   return isAuthorized ? (
     <div className='w-screen h-screen flex m-0 relative'>
+
+
+  
+  
+    {queriesLoading && <LoadingView/>}
+
+  
+
+
       {  <Menu /> }
 
         {/* <button onClick={()=>{
