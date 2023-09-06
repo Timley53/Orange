@@ -319,7 +319,7 @@ const filterDataByDateToThisMonth = (date)=>{
 
   const firstDate = firstDateMonth + '/' + firstDateYear
 
-  return todaysDate == firstDate ? true:false;
+  return todaysDate === firstDate ? true:false;
 }
 
 // console.log(filterDataByDateToThisMonth('18/7/2023'));
@@ -362,6 +362,16 @@ export const calcOverallHigestExp = (allCategory)=>{
 
 }
 
+// calculate total income
+
+export const totalIncome = (arr)=>{
+
+  return arr.reduce((acc, curr)=>{
+    return acc + curr.amount
+  }, 0)
+
+}
+
 // console.log(calcOverallHigestExp(categories))
 
 export const compareDate = ()=>{
@@ -380,7 +390,13 @@ export const compareDate = ()=>{
 // console.log(new Date('19/08/2023'.split('/').reverse().join('-')))
 
 export function changeDateSort(date){
-  return new Date(date.split('/').reverse().join('-'))
+  return new Date(date.split('/').reverse().map(date => {
+    if(date.length < 2){
+     return date.padStart(2, 0)
+    }else{
+      return date
+    }
+  }).join('-'))
 }
 
 export function retunrNewDateStringSorted(date){
@@ -414,4 +430,33 @@ export const reduceGoalsCurr = (curr)=>{
     return acc + current.amount
 
   }, 0)
+}
+
+export const calcOverallBudget = (arr)=>{
+
+  return arr.reduce((acc, curr) =>{
+     return acc + curr.budget
+  }, 0)
+}
+
+export const totalIncomeThisMonth = (arr)=>{
+
+  return arr.filter(inc => {
+    return changeDateSort(inc.date) >= (changeDateSort(getThismonthDate())) 
+  }).reduce((acc, curr) => acc + curr.amount ,0)
+
+
+}
+
+export const  highestIncomeThisMonth = (arr)=>{
+  const flatArr = arr.filter(inc => {
+    return changeDateSort(inc.date) >= (changeDateSort(getThismonthDate())) 
+  }).map(inc => inc.amount)
+
+  return Math.max(...flatArr)
+}
+
+function getThismonthDate(){
+
+  return `01/${new Date().getMonth()}/${new Date().getFullYear()}`
 }

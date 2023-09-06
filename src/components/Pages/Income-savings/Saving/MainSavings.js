@@ -1,15 +1,26 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { MdSavings, MdDelete } from 'react-icons/md'
 import { EachSavingsList } from './SavingsArticle'
 import { FaCaretRight } from 'react-icons/fa'
 import { SavingsContext } from './Savings'
+import { useDispatch, useSelector } from 'react-redux'
+import { openCloseMenu } from '../../../../store/ui/uiStateSlice'
 
 function MainSavings() {
-    const {showSide} = useContext(SavingsContext)
+    // const {showSide} = useContext(SavingsContext)
+    const dispatch = useDispatch()
+    const allSavings = useSelector((state)=> state.userData?.userData?.savings)
 
-  const [showList, setShowList] = useState(false)
+//   const [showList, setShowList] = useState(false)
 
+const openMenu = useSelector((state)=> state.uiState.openMenu)
+
+useEffect(()=>{
+  
+  dispatch(openCloseMenu({close: false}))
+
+},[])
 
 
 
@@ -19,27 +30,34 @@ function MainSavings() {
   return (
 
 
-  !showList &&  <div className={` ${showSide ? 'w-[75%] sm:hidden': 'w-[75%] sm:w-[100%]'} `} >
+     <div className={` flex w-[100%] h-[100%] border-2 sm:w-[100%]`} >
 
-    <div className="flex overflow-y-scroll  flex-wrap h-auto w-[100%]">
+    <div className="flex h-[100%]  flex-col w-[75%]  border-2">
+    <div className='w-[100%] h-[10%] md:mt-16 border-2 bg-red-400'>
 
-<SavingsArticle showList={showList} setShowList={setShowList}  />
-<SavingsArticle showList={showList} setShowList={setShowList}  />
-<SavingsArticle showList={showList} setShowList={setShowList}  />
-<SavingsArticle showList={showList} setShowList={setShowList}  />
+    </div>
+
+
+    <div className="w-[100%] h-[90%]"></div>
+
+
+    </div>
+
+    <div className='w-[25%] h-[100%]'>
+
     </div>
 
 
    
         
-    </div> ||  showList && <EachSavingsList  showList={showList} setShowList={setShowList} showSide={showSide}/>
-
+    </div> 
 
 
   )
 }
 
 export default MainSavings
+
 
 
 function SavingsArticle({setShowList}){

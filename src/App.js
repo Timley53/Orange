@@ -20,6 +20,7 @@ import AddNew from './components/Pages/Expenses/AddNew/AddNew';
 import Income from './components/Pages/Income/Income';
 import IncomeHome from './components/Pages/Income/IncomeHome';
 import IncomeForm from './components/Pages/Income/IncomeForm';
+import MainSavings from './components/Pages/Income-savings/Saving/MainSavings';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -52,7 +53,7 @@ const router = createBrowserRouter(
     </Route>
 
 
-    <Route path='savings' element={<Saving/>}>
+    <Route path='savings' element={<MainSavings/>}>
 
     </Route>
 

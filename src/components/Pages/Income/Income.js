@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { AiFillMoneyCollect, AiOutlineHome } from 'react-icons/ai'
 import { FaCross, FaNairaSign } from 'react-icons/fa'
 import { MdCancel, MdFilterAlt, MdListAlt, MdViewSidebar } from 'react-icons/md'
@@ -7,17 +7,24 @@ import {ImCross} from 'react-icons/im'
 // import IncomeForm from '../Income-savings/IncomeForm'
 import { Outlet, NavLink } from 'react-router-dom'
 import { BsPlusLg } from 'react-icons/bs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { openCloseMenu } from '../../../store/ui/uiStateSlice'
-
+import { formatNumber, highestIncomeThisMonth, totalIncomeThisMonth } from '../../../resources/utils'
 function Income() {
-
+  const dispatch = useDispatch()
 // const [showFilter,setShowFilter] = useState(false)
 const [showSidebar, setShowSetbar] = useState(false)
 const [addIncome, setaddIncome] = useState(false)
 
-      useDispatch(openCloseMenu(false))
 
+
+const openMenu = useSelector((state)=> state.uiState.openMenu)
+
+useEffect(()=>{
+  
+  dispatch(openCloseMenu({close: false}))
+
+},[])
 
 
   return (
@@ -71,17 +78,12 @@ onClick={()=> setShowSetbar(!showSidebar)}
 
 export  default Income
 
-
-
- 
-
-
-
-
-
-
 function Sidebar({showSidebar,setShowSetbar}){
 
+  const allIncome = useSelector((state)=> state.userData?.userData?.income)
+
+  
+  
 
   return(
     <div className="flex flex-col p-1 h-[100%]">
@@ -98,7 +100,7 @@ onClick={()=> setShowSetbar(!showSidebar)}
 
 
     <span className='my-5'>
-      $3,000
+      {formatNumber(totalIncomeThisMonth(allIncome))}
     </span>
 
 
@@ -113,7 +115,7 @@ onClick={()=> setShowSetbar(!showSidebar)}
 
 
     <span className='my-5'>
-      $3,000
+    {formatNumber(highestIncomeThisMonth(allIncome))}
     </span>
 
 

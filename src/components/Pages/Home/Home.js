@@ -13,6 +13,8 @@ import LoadingView from '../Expenses/LoadingView'
 import { NavLink } from 'react-router-dom'
 import { FaPiggyBank } from 'react-icons/fa'
 import { AiFillBank, AiOutlineTransaction } from 'react-icons/ai'
+import { openCloseMenu } from '../../../store/ui/uiStateSlice'
+import { useEffect } from 'react'
 
 function Home() {
 
@@ -30,13 +32,16 @@ function Home() {
 
 
 
-  // const {newData, userId, docId} = params 
+  const openMenu = useSelector((state)=> state.uiState.openMenu)
+
+  useEffect(()=>{
+    
+    dispatch(openCloseMenu({close: false}))
+  
+  },[])
+  
 
 
-
-// console.log(loading)
-// console.log(userData?.income)
-// console.log(userData?.UserDetails?.name)
 
 const userNameSplit = (name)=>{
   return name?.split(' ')[0]
@@ -51,23 +56,12 @@ const userNameSplit = (name)=>{
          {userNameSplit(userData?.UserDetails?.name)}
         </h2>
         <h4 className='text-sm my-2'>Welcome </h4>
-{/* 
-        <button className='p-3 bg-orange-500' 
-        
-        onClick={()=>{
-          dispatch(addNewExpense({
-            newData: 'Aly Machalka',
-            userId,
-            docId
-          }))
 
-        // console.log('dispatched')
-        }}>editNew</button> */}
 
 
       </article>
 
-   {/* { addNewForms &&  <AddNewForms addNewForms={addNewForms} setAddNewForms={setAddNewForms}/>} */}
+
 
    
    {
@@ -82,8 +76,7 @@ const userNameSplit = (name)=>{
           <div className={`fixed ${addNew ? 'h-auto w-auto transition-all':'h-[55px] w-[55px] items-end'} overflow-hidden right-12 flex flex-col bottom-10 sm:bottom-16 rounded-md bg-slate-100 backdrop-blur-md z-10`} >
 
       
-          <button className=' bg-emerald-500 text-white p-3 m-1 z-10   rounded-full text-2xl hover:border-2 
-          hover:border-emerald-500 hover:bg-transparent hover:text-emerald-500 transition duration-150 self-end' 
+          <button className=' bg-emerald-500 text-white p-3 m-1 z-10   rounded-full text-2xl  hover:bg-transparent hover:text-emerald-500 transition duration-150 self-end' 
           onClick={()=>setAddNew(!addNew)}
           >
           <MdAdd/>

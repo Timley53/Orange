@@ -31,12 +31,22 @@ function Dashboard() {
   // const unsubscribe = useSelector(state => state.userData.unsubscribe)
 
 
+  
+
   const userDataLoading = useSelector(state => state.userData.loading)
+
   const queriesLoading = useSelector((state)=> state.userQueries.loading)
 
 
 
   const openMenu = useSelector((state)=> state.uiState.openMenu)
+
+  // useEffect(()=>{
+    
+  //   dispatch(openCloseMenu({close: false}))
+
+  // },[openMenu])
+
 
   // onAuthStateChanged(auth,(user)=>{
   //   if(!user){

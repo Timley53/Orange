@@ -5,10 +5,10 @@ module.exports = {
     extend:{},
     screens: {
       //  'lg':{'max': '1024px'} ,
-       'md': {'max' : '1024px'},
-       'sm': {'max':'700px'},
+      'md': {'max' : '1024px'},
+      'sm': {'max':'700px'},
     },
   },
-  plugins: [],
+  plugins: [], 
 }
 

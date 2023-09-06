@@ -6,14 +6,18 @@ import { MdAdd, MdHistory, MdAddTask, MdAddToQueue, MdOutlineCategory, MdViewSid
 import ExpHistory from './HistoryLayouts/ExpHistory'
 import AddNew from './AddNew/AddNew'
 import ExpenseSideBar from './ExpenseSideBar'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, Outlet } from 'react-router-dom'
 import { BsPlus, BsPlusLg } from 'react-icons/bs'
 import { AiOutlineHome } from 'react-icons/ai'
+import {openCloseMenu} from '../../../store/ui/uiStateSlice'
+import { useEffect } from 'react'
+
 
 function Expenses() {
     // console.log(window.location);
 
+    const dispatch = useDispatch()
     const [showHistory, setShowHistory] = useState(true)
     const [showAdd, setShowAdd] = useState(false)
     const [showCategory, setShowCategory] = useState(false)
@@ -21,29 +25,17 @@ function Expenses() {
    
 
 
-    // console.log(queriesLoading);
+    const openMenu = useSelector((state)=> state.uiState.openMenu)
+
+    useEffect(()=>{
+      
+      dispatch(openCloseMenu({close: false}))
+    
+    },[])
+    
 
 
 
-
-    const displayHisory = ()=>{
-      setShowHistory(true)
-      setShowAdd(false)
-      setShowCategory(false)
-    }
-
-    const displayAdd = ()=>{
-      setShowAdd(true)
-      setShowHistory(false)
-      setShowCategory(false)
-      console.log('here');
-    }
-
-    function displayCategory (){
-      setShowCategory(true)
-      setShowHistory(false)
-      setShowAdd(false)
-    }
 
 
     const [showSide, setShowSide] = useState(false)
