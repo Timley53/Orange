@@ -66,7 +66,7 @@ const prev = ()=>{
 
 
 
-  console.log(planList);
+  console.log(allSavings);
 
 
   return(
@@ -75,7 +75,7 @@ const prev = ()=>{
 
 <div className="w-[100%] h-[90%] flex flex-col items-center">
   {
-     planList.length > 0 && planList.slice(start, end).map((goals, i) =>{
+     allSavings.length > 0 && allSavings.slice(start, end).map((goals, i) =>{
       return (
         <SavingsArticle  key={i + 1} {...goals} />
       )
@@ -83,7 +83,7 @@ const prev = ()=>{
   }
 
   {
-   planList.length < 1 && <div className="w-[100%] h-[100%] text-lg border-2 flex justify-center  items-center">
+   allSavings.length < 1 && <div className="w-[100%] h-[100%] text-lg border-2 flex justify-center  items-center">
     No Savings Plan 
    </div>
   }
