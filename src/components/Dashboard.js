@@ -87,27 +87,26 @@ function Dashboard() {
    },[])
 
 
-  //  useEffect(()=>{
 
-  
-
-  //   const docRef = doc(database,'users',docID)
+   ///live update effect
+   useEffect(()=>{
+    const docRef = doc(database,'users',docID)
     
-  //       const unsubscribe = onSnapshot(docRef,(snapShot) => {
+        const unsubscribe = onSnapshot(docRef,(snapShot) => {
     
             
-  //               if(snapShot.exists()){
-  //                   const documentData = snapShot.data()
-  //                   console.log(documentData, 'snapshot');
-  //                   dispatch(updateData(documentData))
-  //                 }
-  //               })
+                if(snapShot.exists()){
+                    const documentData = snapShot.data()
+                    // console.log(documentData, 'snapshot');
+                    dispatch(updateData(documentData))
+                  }
+                })
 
 
 
-  //   return ()=> unsubscribe()   
+    return ()=> unsubscribe()   
 
-  //  },[])
+   },[])
 
 
   //  console.log('loading', userDataLoading);

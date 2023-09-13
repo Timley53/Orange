@@ -1,18 +1,19 @@
 import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
-import { MdSavings, MdDelete } from 'react-icons/md'
+import { MdSavings, MdDelete, MdViewSidebar, MdHome, MdAdd, MdOutlineAdd } from 'react-icons/md'
 import { EachSavingsList } from './SavingsArticle'
 import { FaCaretRight } from 'react-icons/fa'
 import { SavingsContext } from './Savings'
 import { useDispatch, useSelector } from 'react-redux'
 import { openCloseMenu } from '../../../../store/ui/uiStateSlice'
+import { NavLink, Outlet } from 'react-router-dom'
 
 function MainSavings() {
     // const {showSide} = useContext(SavingsContext)
     const dispatch = useDispatch()
     const allSavings = useSelector((state)=> state.userData?.userData?.savings)
 
-//   const [showList, setShowList] = useState(false)
+  const [showSide, setShowSide] = useState(false)
 
 const openMenu = useSelector((state)=> state.uiState.openMenu)
 
@@ -30,22 +31,53 @@ useEffect(()=>{
   return (
 
 
-     <div className={` flex w-[100%] h-[100%] border-2 sm:w-[100%]`} >
+     <div className={` flex w-[100%] h-[100%] border-2 sm:w-[100%] relative`} >
 
-    <div className="flex h-[100%]  flex-col w-[75%]  border-2">
-    <div className='w-[100%] h-[10%] md:mt-16 border-2 bg-red-400'>
+    <div className="flex h-[100%]  flex-col w-[75%]  border-2 md:w-[100%]">
+    <div className='w-[100%] h-[8%] md:mt-16 border-2 text-emerald-500  flex items-center'>
+
+<NavLink to={''} className=" flex items-center p-1 mx-2 rounded-md hover:bg-emerald-400 hover:text-white border-2 border-emerald-400 transition-all">
+ 
+
+    <span className='mx-1'>
+
+<MdHome/>
+    </span>
+
+       <span className='mx-1 sm:hidden text-sm'>
+        Home
+    </span>
+
+</NavLink>
+
+
+<NavLink to={'addNew'} className=" flex items-center p-1 mx-2 rounded-md hover:bg-emerald-400 hover:text-white border-2 border-emerald-400 transition-all">
+ 
+
+            <span className='mx-1'>
+        <MdOutlineAdd/>
+            </span>
+
+       <span className='mx-1 sm:hidden text-sm'>
+        Add new
+    </span>
+
+</NavLink>
+
 
     </div>
 
 
-    <div className="w-[100%] h-[90%]"></div>
+    <main className="w-[100%] h-[90%]">
+        <Outlet/>
+    </main>
 
 
     </div>
 
-    <div className='w-[25%] h-[100%]'>
+    <aside className={`w-[25%] h-[100%] ${showSide ? 'md:fixed md:flex right-0 top-0 md:w-[60%]':'md:hidden'}`}>
 
-    </div>
+    </aside>
 
 
    
@@ -59,50 +91,3 @@ useEffect(()=>{
 export default MainSavings
 
 
-
-function SavingsArticle({setShowList}){
-
-    const {listObject, setlistObject} = useContext(SavingsContext)
-
-    return(
-        <article className="w-[30%] md:w-[40%] h-[70px]  sm:w-[100%] flex p-2 py-1 items-center border-2 m-1 rounded">
- 
-        <span className='w-[45px] h-[45px] rounded-full bg-green-400 text-white text-2xl p-2 flex items-center justify-center'>
-        <MdSavings/>
-        </span>
-
-        <div className="ml-6 flex w-full flex-col ">
-    <span className='text-xs'> 
-        title
-    </span>
-    <span  className='text-xs'>
-        amount / remaining
-    </span>
-
-    <div className='h-[15px] my-1 bg-green-200 rounded-md w-[50%]'>
-        <div className='h-full bg-green-600 rounded-l-md w-[40%]'>
-
-        </div>
-
-    </div>
-
-
-        </div>
-
-
-        <button className="hover:text-rose-300 transition-all text-lg p-1"
-onClick={()=>{
-    setlistObject({
-        title: 'Rent',
-        goals: 2000,
-        position: 1234
-
-    })
-    setShowList(true)
-}}
-        >
-            <FaCaretRight/>
-        </button>
-    </article>
-    )
-}

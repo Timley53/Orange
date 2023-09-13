@@ -460,3 +460,9 @@ function getThismonthDate(){
 
   return `01/${new Date().getMonth()}/${new Date().getFullYear()}`
 }
+
+export const calcAllSavings = (arr)=>{
+        return arr.reduce((acc, cur)=>{
+          return acc + cur.amount
+        },0)
+}

@@ -9,7 +9,7 @@ function HomeIncomeAndSavings() {
   const income = useSelector((state)=> state.userData.userData?.income)
   // const exps = useSelector((state)=> state.userData.userData?.expenses?.categories)
 
-  // console.log(income)
+  console.log(savings)
 
 
   return (
@@ -33,7 +33,7 @@ function HomeIncomeAndSavings() {
          
             {
 
-                savings && savings.length > 0 && savings.map(goal =>{
+                savings && savings.length > 0 && savings?.map(goal =>{
 
                     const {id} = goal
                     
@@ -62,6 +62,7 @@ function HomeIncomeAndSavings() {
 
 export default HomeIncomeAndSavings
 
+
 const  SavingsArtcile = ({title,current, target}) =>{
 
 
@@ -73,9 +74,11 @@ const  SavingsArtcile = ({title,current, target}) =>{
           <MdSavings/>
           </span>
 
+          
+
           <div className="ml-3 flex flex-col w-[45%]">
       <span className='text-xs'> 
-          {title[0].toUpperCase() + title.slice(1)}
+          { title[0]?.toUpperCase() + title?.slice(1)}
       </span>
       <span  className='text-xs'>
           {formatNumber(reduceGoalsCurr(current))} / {formatNumber(target)}

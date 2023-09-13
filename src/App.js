@@ -21,6 +21,8 @@ import Income from './components/Pages/Income/Income';
 import IncomeHome from './components/Pages/Income/IncomeHome';
 import IncomeForm from './components/Pages/Income/IncomeForm';
 import MainSavings from './components/Pages/Income-savings/Saving/MainSavings';
+import Savings from './components/Pages/Savings/Saving'
+import SavingsAddNew from './components/Pages/Savings/SavingsAddNew';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -54,6 +56,9 @@ const router = createBrowserRouter(
 
 
     <Route path='savings' element={<MainSavings/>}>
+    <Route index element ={<Savings/>}/>
+    <Route path='addnew' element ={<SavingsAddNew/>}/>
+
 
     </Route>
 

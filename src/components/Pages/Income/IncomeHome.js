@@ -291,7 +291,7 @@ function IncomeHistory(){
       <div className={`h-[100%]  w-[60%]  flex flex-col sm:w-[100%]`}>
 
         {
-          (  !showFiltered && allIncome?.length > 0 && <div className="w-[100%] h-[90%] flex flex-col ">
+          (!showFiltered && allIncome?.length > 0 && <div className="w-[100%] h-[90%] flex flex-col ">
 
                 {allIncome.slice(start, end).map((inc, i) =>{
                     return(

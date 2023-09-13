@@ -170,7 +170,7 @@ export const createSavingsPlan = createAsyncThunk('userQuieries/createSavingsPla
 
                 }
             ]
-            console.log(docData);
+            // console.log(docData);
             
              await setDoc(docRef,docData) 
 
@@ -180,6 +180,69 @@ export const createSavingsPlan = createAsyncThunk('userQuieries/createSavingsPla
         throw new Error(err.message)
     }
 })
+
+
+export const deleteSavingsPlan = createAsyncThunk('userQuieries/deleteSavingsPlan', async (params,ThunkApi)=>{
+    try{
+        const {userId, planId} = params
+
+        const docRef = doc(database, 'users', userId)
+        
+        const getDocResponse = await getDoc(docRef)
+
+        if(getDocResponse.exists()){
+            const docData = getDocResponse.data()
+            docData.savings.goals = docData.savings.goals.filter(goals => goals.id !== planId) 
+
+
+            console.log(docData)
+            await setDoc(docRef,docData) 
+
+        }
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+})
+
+
+/////////////////
+
+
+export const editSavingsPlan = createAsyncThunk('userQuieries/editSavingsPlan', async (params,ThunkApi)=>{
+    try{
+        const {userId, planId, newTarget} = params
+
+        const docRef = doc(database, 'users', userId)
+        
+        const getDocResponse = await getDoc(docRef)
+
+        if(getDocResponse.exists()){
+            const docData = getDocResponse.data()
+            docData.savings.goals = docData.savings.goals.map(goals => {
+                if(goals.id === planId){
+                    return {
+                        ...goals,
+                        target: +newTarget,
+                    }
+            }
+            return goals
+            }) 
+
+
+            // console.log(docData)
+            await setDoc(docRef,docData) 
+
+        }
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+})
+
+
+
+
 
 
 export const saveNewFund = createAsyncThunk('userQuieries/saveNewFund', async (params, ThunkApi)=>{
@@ -194,14 +257,14 @@ export const saveNewFund = createAsyncThunk('userQuieries/saveNewFund', async (p
             const docData = getDocResponse.data()
 
             docData.savings.goals = docData.savings.goals.map( goal =>{
-                const {title, current} = goal
-                if(title === plan){
+                const {id, current,title} = goal
+                if(id === plan){
                     return{
                         ...goal,
                         current:[
                             ...current,
                             {
-                                id: generateCompareID(plan,current),
+                                id: generateCompareID(title,current),
                                 amount: +amount,
                                 date: createDate()
                             }
@@ -432,6 +495,46 @@ builder.addCase(deleteCategories.rejected, (state, actions)=>{
 
 
         
+        //========>>>>>>>>
+        //========>>>>>>>>
+        // edit Savings Plan 
+        builder.addCase(editSavingsPlan.pending, (state, actions)=>{
+            state.loading = true
+        })
+  
+        builder.addCase(editSavingsPlan.fulfilled, (state, actions)=>{
+                    state.successMessage = ' Saving goal successfully edited'
+                })
+
+        builder.addCase(editSavingsPlan.rejected, (state, actions)=>{
+            state.error = actions.error.message
+    })
+
+
+
+
+
+        
+        //========>>>>>>>>
+        //========>>>>>>>>
+        // delete Savings Plan 
+        builder.addCase(deleteSavingsPlan.pending, (state, actions)=>{
+            state.loading = true
+        })
+  
+        builder.addCase(deleteSavingsPlan.fulfilled, (state, actions)=>{
+                    state.successMessage = 'Saving goal successfully deleted'
+                })
+
+        builder.addCase(deleteSavingsPlan.rejected, (state, actions)=>{
+            state.error = actions.error.message
+    })
+
+
+
+
+
+
         //========>>>>>>>>
         //========>>>>>>>>
         //create new saving plan 
