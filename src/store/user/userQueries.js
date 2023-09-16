@@ -181,7 +181,7 @@ export const createSavingsPlan = createAsyncThunk('userQuieries/createSavingsPla
     }
 })
 
-
+////////////////////
 export const deleteSavingsPlan = createAsyncThunk('userQuieries/deleteSavingsPlan', async (params,ThunkApi)=>{
     try{
         const {userId, planId} = params
@@ -198,6 +198,43 @@ export const deleteSavingsPlan = createAsyncThunk('userQuieries/deleteSavingsPla
             console.log(docData)
             await setDoc(docRef,docData) 
 
+        }
+
+    }catch(err){
+        throw new Error(err.message)
+    }
+})
+
+
+/////////////////
+
+
+////////////////////
+export const deleteSavingsCurrent = createAsyncThunk('userQuieries/deleteSavingsCurrent', async (params,ThunkApi)=>{
+    try{
+        
+        const {userId, planId, currentId} = params
+
+console.log(userId, planId, currentId)
+        const docRef = doc(database, 'users', userId)
+        
+        const getDocResponse = await getDoc(docRef)
+
+
+        if(getDocResponse.exists()){
+            const docData = getDocResponse.data()
+            docData.savings.goals = docData.savings.goals.map(goal => {
+                if(goal.id === planId){
+                    return {
+                        ...goal,
+                        current: goal.current.filter(curr => curr.id !== currentId)
+                    }
+                } else{
+                     return goal
+                }
+            }) 
+            console.log(docData)
+            await setDoc(docRef,docData) 
         }
 
     }catch(err){
@@ -244,7 +281,7 @@ export const editSavingsPlan = createAsyncThunk('userQuieries/editSavingsPlan', 
 
 
 
-
+////////////
 export const saveNewFund = createAsyncThunk('userQuieries/saveNewFund', async (params, ThunkApi)=>{
     try{
         const {userId, amount, plan} = params
@@ -289,6 +326,7 @@ export const saveNewFund = createAsyncThunk('userQuieries/saveNewFund', async (p
 })
 
 
+//////////////
 export const addIncome = createAsyncThunk('userQuieries/addIncome', async (params, ThunkApi)=>{
 
         try{
@@ -345,7 +383,7 @@ export const deleteIncome = createAsyncThunk('userQuieries/deleteIncome', async 
 })
 
 
-
+//////////////////////////
 export const editCategories = createAsyncThunk('userQuieries/editCategories',  async (params, ThunkApi)=>{
 
     try{
@@ -408,6 +446,9 @@ export const deleteCategories = createAsyncThunk('userQuieries/deleteCategories'
     }
 })
 
+
+
+////////////////
 
 const userQueriesSlice = createSlice({
     name: 'userQuieries',
@@ -523,7 +564,7 @@ builder.addCase(deleteCategories.rejected, (state, actions)=>{
         })
   
         builder.addCase(deleteSavingsPlan.fulfilled, (state, actions)=>{
-                    state.successMessage = 'Saving goal successfully deleted'
+                    state.successMessage = 'Saving input successfully deleted'
                 })
 
         builder.addCase(deleteSavingsPlan.rejected, (state, actions)=>{
@@ -565,6 +606,24 @@ builder.addCase(deleteCategories.rejected, (state, actions)=>{
         })
 
         builder.addCase(saveNewFund.rejected, (state, actions)=>{
+            state.error = actions.error.message
+    })
+
+    
+    //========>>>>>>>>
+
+    //========>>>>>>>>
+        //===========>>delete Savings Current 
+        builder.addCase(deleteSavingsCurrent.pending, (state, actions)=>{
+            state.loading = true
+        })
+
+        
+        builder.addCase(deleteSavingsCurrent.fulfilled, (state, actions)=>{
+            state.successMessage = 'Savings successfully added'
+        })
+
+        builder.addCase(deleteSavingsCurrent.rejected, (state, actions)=>{
             state.error = actions.error.message
     })
 

@@ -96,7 +96,7 @@ const userNameSplit = (name)=>{
           </NavLink>
 
 
-          <NavLink to={' expenses/addnew'} className='flex justify-between w-[90%]  text-black items-center my-1 mx-2  text-sm' 
+          <NavLink to={'expenses/addnew'} className='flex justify-between w-[90%]  text-black items-center my-1 mx-2  text-sm' 
           
           >
 

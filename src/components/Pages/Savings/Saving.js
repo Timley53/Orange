@@ -1,13 +1,13 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { FaCaretRight } from 'react-icons/fa'
 import { MdChevronRight, MdSavings, MdDelete } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import Pagination from './Pagination'
-import { calcAllSavings, calcPercentage, formatNumber } from '../../../resources/utils'
+import { calcAllSavings, calcPercentage, formatNumber, reduceGoalsCurr } from '../../../resources/utils'
 import { GiPiggyBank } from 'react-icons/gi'
 import {ImCross} from 'react-icons/im'
-import { deleteSavingsPlan, editSavingsPlan } from '../../../store/user/userQueries'
+import { deleteSavingsCurrent, deleteSavingsPlan, editSavingsPlan } from '../../../store/user/userQueries'
 
 const SavingsContext = createContext(null)
 
@@ -47,7 +47,7 @@ export function SavingsPlan({}){
   const [postPerpage, setpostPerpage] = useState(6)
   const [currentPage, setcurrentPage] = useState(1)
 
-  const numberOfPages = Math.ceil(planList.length / postPerpage)
+  const numberOfPages = Math.ceil(allSavings.filter(plan => reduceGoalsCurr(plan.current) < plan.target).length / postPerpage)
 
 const start = (currentPage - 1) * postPerpage
 const end = currentPage * postPerpage 
@@ -66,7 +66,7 @@ const prev = ()=>{
 
 
 
-  console.log(allSavings);
+  // console.log(allSavings);
 
 
   return(
@@ -75,7 +75,7 @@ const prev = ()=>{
 
 <div className="w-[100%] h-[90%] flex flex-col items-center">
   {
-     allSavings.length > 0 && allSavings.slice(start, end).map((goals, i) =>{
+     allSavings.length > 0 && allSavings.filter(plan => reduceGoalsCurr(plan.current) < plan.target).slice(start, end).map((goals, i) =>{
       return (
         <SavingsArticle  key={i + 1} {...goals} />
       )
@@ -91,10 +91,9 @@ const prev = ()=>{
 </div>
 
 
-  <div className="pagination h-[10%] border-2">
+  <div className="pagination h-[10%] rounded-sm flex items-center justify-center">
 
 <Pagination currentPage={currentPage} numberOfPages={numberOfPages} prev={prev} next={next} />
-
   </div>
     </div>
   )
@@ -173,7 +172,7 @@ export function PlanDetails({ }){
 
   const {title,planId,target,current} = planDetails
 
-    console.log(planDetails)
+    // console.log(planDetails)
 
 
 
@@ -188,7 +187,6 @@ const end = currentPage * postPerpage
 
 const next = ()=>{
   setcurrentPage(currentPage + 1)
-
 }
 
 
@@ -198,7 +196,6 @@ const prev = ()=>{
 }
 
 /////////delete fxn
-
 function deleteFxn(){
 
   dispatch(deleteSavingsPlan({
@@ -210,9 +207,21 @@ function deleteFxn(){
   setPlanDetails(null)
 }
 
+
+
 const [editPlan, setEditPlan] = useState(false)
 
-console.log(!editPlan && current.length < 1)
+// console.log(!editPlan && current.length < 1)
+
+const handleCurrentDeleteFxn = (planId,id, userId)=>{
+  dispatch(deleteSavingsCurrent({
+   planId, 
+   currentId: id,
+   userId
+  }))
+  setShowPlanDetails(false)
+  setPlanDetails(null)
+ }
 
 
   return(
@@ -250,7 +259,7 @@ console.log(!editPlan && current.length < 1)
   
     </div>
 
-    <div className="savinng-current flex flex-col items-center w-[100% h-[70%] border-2 rounded ">
+    <div className="savinng-current flex flex-col items-center w-[100% h-[70%] rounded ">
 
     { !editPlan && current.length < 1 &&  <div className="w-[100%] h-[100%] flex items-center justify-center">
       No current savings
@@ -259,7 +268,7 @@ console.log(!editPlan && current.length < 1)
 
 
       {
-     !editPlan && current?.slice(start, end)?.map(cur => <SavingDetailsArticle key={cur.id} {...cur} planId={planId}/> )}
+     !editPlan && current?.slice(start, end)?.map(cur => <SavingDetailsArticle key={cur.id} {...cur} planId={planId} handleCurrentDeleteFxn={handleCurrentDeleteFxn}/> )}
      
      
       {
@@ -269,7 +278,7 @@ console.log(!editPlan && current.length < 1)
     </div>
 
 
-<div className="pagination h-[10%] ">
+<div className="pagination w-[100%] justify-center h-[10%] flex items-center">
 
 <Pagination currentPage={currentPage} numberOfPages={numberOfPages} prev={prev} next={next} />
 
@@ -290,9 +299,14 @@ console.log(!editPlan && current.length < 1)
 
 
 
-function SavingDetailsArticle({amount, date, id, planId}){
+function SavingDetailsArticle({amount, date, id, planId, handleCurrentDeleteFxn}){
  
-  
+  const dispatch = useDispatch()
+  const userId = useSelector((state)=> state.userData.DocumentId)
+
+ 
+
+
   return(
     <article className="flex p-2 m-1 w-[95%] border-2 items-center justify-between text-sm rounded-md bg-emerald-100 bg-opacity-0.5">
 
@@ -301,21 +315,23 @@ function SavingDetailsArticle({amount, date, id, planId}){
       </span>
 
       <div>
-{formatNumber(amount)}
+        {formatNumber(amount)}
       </div>
 
       <div className='text-sm'>
         {date}
       </div>
 
-
-    </article>
+      <button className="hover:text-rose-600 mx-4" 
+      onClick={()=>handleCurrentDeleteFxn(planId,id, userId)}>
+        <MdDelete/> 
+      </button> 
+    </article> 
   )
 }
 
 
-
-
+////////////////////////
 function EditPlanForm({title,planId,target,current}){
 
   const [newTarget, setNewTarget] = useState(0)

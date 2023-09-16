@@ -12,7 +12,7 @@ function LoadingView() {
       const success = useSelector(state => state.userQueries.successMessage)
 
   return (
-    <div className='fixed top-0 left-0 w-screen h-[100vh] bg-orange-400 bg-opacity-70 backdrop-blur-md z-50 flex flex-col items-center justify-center' >
+    <div className='fixed top-0 left-0 w-screen h-[100vh] bg-orange-400 bg-opacity-70 backdrop-blur-md z-50 flex flex-col items-center justify-center'>
 
 <button className='p-2 m-4 text-orange-600  top-8 right-10 text-lg z-50'
 onClick={()=> dispatch(closeLoading())}

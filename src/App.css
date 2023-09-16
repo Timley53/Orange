@@ -17,6 +17,10 @@ zoom: 1;
 
 }
 
+.checked{
+  background-color: aqua;
+}
+
 .login{
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.64);
 }
@@ -129,7 +133,7 @@ zoom: 1;
 }
 
 .overflow-edit::-webkit-scrollbar {
-  width: 20px;
+  width: 10px;
 }
 
 .btn-trn{

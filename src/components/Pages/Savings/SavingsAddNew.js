@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createSavingsPlan, saveNewFund } from '../../../store/user/userQueries'
+import { reduceGoalsCurr } from '../../../resources/utils'
 
 
 
@@ -115,7 +116,7 @@ function SavingsAddNew(){
   
   <option value="" className=''>Select saving plan</option>
       {
-        savings && savings.map(goals => {
+        savings && savings.filter(plan => reduceGoalsCurr(plan.current) < plan.target).map(goals => {
           const {title , id} = goals
   
           return( 
