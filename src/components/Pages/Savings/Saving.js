@@ -83,7 +83,7 @@ const prev = ()=>{
   }
 
   {
-   allSavings.length < 1 && <div className="w-[100%] h-[100%] text-lg border-2 flex justify-center  items-center">
+   allSavings.length < 1 && <div className="w-[100%] h-[100%] text-lg flex justify-center  items-center">
     No Savings Plan 
    </div>
   }
