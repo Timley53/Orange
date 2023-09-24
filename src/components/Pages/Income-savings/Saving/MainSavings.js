@@ -107,7 +107,7 @@ function SavingsSideView(){
 
   const allSavings = useSelector(state => state.userData.userData?.savings.goals)
 
-console.log(allSavings)
+// console.log(allSavings)
 
   return(
     <div className="w-[99%] h-[80%] flex flex-col items-center overflow-y-scroll overflow-edit">

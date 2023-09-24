@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { login } from '../../store/user/userSlice'
+import { addUserId, login, setUserCreated } from '../../store/user/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import userStore from '../../store/userStore'
 import {AiFillEyeInvisible} from 'react-icons/ai'
@@ -7,7 +7,7 @@ import {MdVisibility} from 'react-icons/md'
 import {BsCheck2Square} from 'react-icons/bs'
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../../resources/firebase'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import {userSignUp} from '../../store/user/userSlice'
 
 import {createUserDatabase} from '../../store/user/userSlice'
@@ -28,8 +28,7 @@ function SignUp() {
  const id = useSelector((state)=> state.user.uId)
  const userEmail = useSelector((state)=> state.user.email)
  const userFullname = useSelector((state)=> state.user.fullname)
- const userFileLoading = useSelector((state)=> state.user.userFileCreation.loading)
- const userFileCreated = useSelector((state)=> state.user.userFileCreation.userFileCreated)
+ const userCreated = useSelector((state)=> state.user.userCreated)
 
  
  
@@ -52,13 +51,7 @@ function SignUp() {
      
       setLogIn(loggedIn);
 
-      onAuthStateChanged(auth,(user)=>{
-        if(user){
-          navigate('/dashboard')
-
-        }
-      })
-      
+     
       
     }catch(err){
  console.log(err.message)
@@ -71,22 +64,39 @@ function SignUp() {
   */
   // console.log(loggedIn)
 
-  useEffect(()=>{
+  ///if signed in reroute
+  // useEffect(()=>{
   
   
-    if(signedIn && userFileCreated){
-      onAuthStateChanged(auth,(user)=>{
-        if(user){
-          navigate('/dashboard')
+  //   if(signedIn && userFileCreated){
+  //     onAuthStateChanged(auth,(user)=>{
+  //       if(user){
+  //         dispatch(addUserId(user.uid))
+  //         navigate('/dashboard')
   
-        }
-      })
-    }
+  //       }
+  //     })
+  //   }
 
-  }, [signedIn, userFileCreated])
+  // }, [signedIn, userFileCreated])
 
+  /////////================
 
+ 
+        // onAuthStateChanged(auth,(user)=>{
+        //   if(user){
+        //       console.log(user)
+        //   }
+        // })
+      
 
+        onAuthStateChanged(auth,(user)=>{
+          if(user){
+            console.log(user)
+  
+          }
+        })
+        
   const submitForm = (e) =>{
     e.preventDefault()
 
@@ -98,26 +108,43 @@ function SignUp() {
   
   }
 
-
   return (
 
 <>
 
 {
-  (signedIn && loggedIn) && <div className="w-[60] text-center m-auto  my-20">
+  (userCreated && <div className="w-[60] text-center m-auto flex flex-col  items-center my-20">
 
   <button className='text-orange-600 text-2xl my-5'>
     <BsCheck2Square/>
   </button>
 
   <h3>Account Successfully Created</h3>
+    <p className='text-sm my-2'>Goto login page</p>
 
-  </div>  || 
+    
+
+<div className='w-[60%] self-center my-4 md:w-[80%] flex justify-center items-center'>
+    <small className='text-sm'>
+        Have an account? <NavLink to={'/signin'} className='inline underline'
+        onClick={()=>{
+            dispatch(setUserCreated())
+          }}>
+               <span className='text-orange-500  text-sm mr-2'>
+               </span>
+                Sign in 
+                </NavLink>   
+    </small>
+    </div>
+
+  </div> ) || 
   
- ( <form action="" method="post" className='p-3 w-[350px] mx-auto justify-center text-lg flex flex-col  my-3 rounded sm:w-[90%] border-2'
+ (!userCreated && <form action="" method="post" className='p-3 w-[350px] mx-auto justify-center text-lg flex flex-col  my-3 rounded sm:w-[90%] '
   onSubmit={submitForm}
   >
-
+      <div className='w-[50%] p-1 self-center text-center my-2'>
+    <p className='my-3'>Sign Up</p>
+    </div>
     
 <label htmlFor="fullname">
             <h3 className='text-sm mt-4'>
@@ -146,19 +173,26 @@ type="email" name="email" id="mail" required />
       <label htmlFor="password" className='relative '>
           <h3 className='text-sm'>Password</h3>
 
+
+          <div className="flex w-[100%] border-2  border-orange-200 items-center p-1 rounded-md ">
+
+
           <input type={`${showPassword ? 'text': 'password'}`}
            value={password} 
            onChange={(e)=>setPassword(e.target.value)}
 
           //  onFocus={()=> setfailedCharacterPassword('')}
-           className={`border-2  border-orange-200 text-sm w-[90%]  rounded md:w-full md:p-1`} required/>
+           className={`focus-within:outline-none border-none text-sm w-[90%] bg-transparent px-1 rounded  md:p-1`} required/>
            
 
-           <span className='absolute right-0 md:right-3 text-xl bottom-0 md:bottom-1 md:text-2xl cursor-pointer'
+           <span className=' text-center w-[10%] flex items-center text-xl bottom-0  md:text-2xl cursor-pointer'
            onClick={()=> setShowPassword(!showPassword)}
            >
            {!showPassword && <MdVisibility/> || showPassword && <AiFillEyeInvisible/> }
            </span>
+
+          </div>
+
      
       </label>
       <small className='text-xs'> 
@@ -186,6 +220,20 @@ onSubmit={submitForm}
 {error}
 </small>
 
+
+
+<div className='w-[60%] self-center my-4 md:w-[80%] flex justify-center items-center'>
+    <small className='text-sm'>
+        Have an account? <NavLink to={'/signin'} className='inline underline'
+        onClick={()=>{
+            dispatch(setUserCreated())
+          }}>
+               <span className='text-orange-500  text-sm mr-2'>
+               </span>
+                Sign in 
+                </NavLink>   
+    </small>
+    </div>
   </form>)
 
 }

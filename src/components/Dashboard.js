@@ -62,14 +62,14 @@ function Dashboard() {
 
    useEffect(()=>{
     onAuthStateChanged(auth,(user)=>{
-      if(!user){
-        navigate('/')        
+      if(!user || !isAuthorized){
+        navigate('/auth')        
       }
 
-      if(user){
-        dispatch(login({loggedIn:true}))
+    //   if(user){
+    //     dispatch(login({loggedIn:true}))
 
-      }
+    //   }
     })
    
 
@@ -80,16 +80,17 @@ function Dashboard() {
    
    useEffect(()=>{
      if(isAuthorized){
-  
+      console.log(docID)
        dispatch(getDocument({docID}))
-       dispatch(updateId({docID}))
+   dispatch(updateId({docID}))
      }
-   },[])
+   },[docID])
 
 
 
    ///live update effect
    useEffect(()=>{
+
     const docRef = doc(database,'users',docID)
     
         const unsubscribe = onSnapshot(docRef,(snapShot) => {

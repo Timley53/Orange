@@ -10,6 +10,7 @@ import Form, { Field } from 'rc-field-form';
 import { AiFillEyeInvisible } from 'react-icons/ai'
 import { MdVisibility } from 'react-icons/md'
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 const Input = ({ value = "", ...props }) => <input value={value} {...props} />;
 
@@ -24,13 +25,17 @@ const Demo = ({loginUser, setShowSpinner, showSpinner,errorMessage}) => {
 
   return (
     <Form
-    className='w-[350px] sm:w-[90%] mx-auto my-3 flex flex-col items-center  p-3    border-2 '
+    className='w-[350px] sm:w-[90%] mx-auto my-3 flex flex-col items-center  p-3  '
       onFinish={(values) => {
         
         loginUser(values)
         console.log("Finish:", values);
       }}
     >
+         <div className='w-[50%] p-1 self-center text-center my-2'>
+    <p className='my-3'>Log in</p>
+    </div>
+
       <Field name="email" 
       className='my-3 mt-5 m-auto w-[90%] border-red-900 border-2 md:w-full'
       >
@@ -74,6 +79,19 @@ const Demo = ({loginUser, setShowSpinner, showSpinner,errorMessage}) => {
  {error}
 
 </small>
+
+
+
+<div className='w-[80%] self-center my-6 md:w-[80%] text-center'>
+    <small className=''>
+        Not registered? <NavLink to={'signup'} className='inline underline'>
+               <span className='text-orange-500 mr-2'>
+               </span>
+                Create account
+                </NavLink>   
+                
+    </small>
+    </div>
     </Form>
   );
 };

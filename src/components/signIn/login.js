@@ -76,14 +76,20 @@ function Login() {
     }
 
     useEffect(()=>{
+      if(isAuthorized){
 
-      onAuthStateChanged(auth,(user)=>{
-  if(user){
-    navigate('/dashboard')        
-  }
-})
+        onAuthStateChanged(auth,(user)=>{
+    if(user){
+      navigate('/auth')        
+    }
+  })
+      }
 
     },[isAuthorized])
+
+    useEffect(()=>{
+      console.log('werey ni signUp')
+    })
 
     const submitForm = (e)=>{
       e.preventDefault()

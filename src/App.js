@@ -23,12 +23,29 @@ import IncomeForm from './components/Pages/Income/IncomeForm';
 import MainSavings from './components/Pages/Income-savings/Saving/MainSavings';
 import Savings from './components/Pages/Savings/Saving'
 import SavingsAddNew from './components/Pages/Savings/SavingsAddNew';
+import ErrorPage from './components/Pages/Error and Others/ErrorPage';
+import AuthDetails from './components/signIn/AuthDetails';
+import Login from './components/signIn/login';
+import SignUp from './components/signIn/SignUp';
+import LandingPage from './components/Pages/landing Page/LandingPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
       <Route path='/'  element={<AppLayout/>}>
 
-        <Route index element={<SignIn/>}/>
+        <Route index element={<LandingPage/>}/>
+
+        <Route path='signin' element={<SignIn/>}>
+          <Route index element={<Login/>}/>
+          <Route path='signup' element={<SignUp/>}/>
+
+        </Route>
+          
+          
+
+
+        <Route path='auth' element={<AuthDetails/>}/>
+
 
 
         <Route path='/dashboard' element={<Dashboard/>}>
@@ -62,6 +79,7 @@ const router = createBrowserRouter(
 
     </Route>
 
+<Route path='*' element={<ErrorPage/>} />
       </Route>//dashboard
 
       </Route>

@@ -169,8 +169,8 @@ li.classList.add('expand-height')
           <button 
 onClick={()=>{
   signOutUser()
-//  localStorage.removeItem('persist:root')
- localStorage.clear()
+ localStorage.removeItem('persist:root')
+//  localStorage.clear()
 }}
            className={`flex items-center p-3 px-5 rounded`}>
 

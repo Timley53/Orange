@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { auth, database } from '../../resources/firebase'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, doc, setDoc} from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, setDoc} from "firebase/firestore";
 import { Defaultuser } from "../../resources/Data";
 
 const initialState = {
@@ -13,11 +13,10 @@ const initialState = {
     signedIn: false,
     fullname:'',
     email:'',
-    
-    userFileCreation:{
-        loading:false,
-        userFileCreated:false,
-    }
+    userCreated: false,
+    isDatabase: false,
+    checkDatabaseLoading: false,
+    databaseCreated: false
 
 }
 
@@ -57,43 +56,85 @@ export const userSignUp = createAsyncThunk('user/signUp',
          console.log(userCredentials)
 
          if(userCredentials.user){
-           user = await signInWithEmailAndPassword(auth, email, password )
+        //    user = await signInWithEmailAndPassword(auth, email, password )
 
-                if(user.user){
-                    const collectionRef = collection(database,'users' )
-
-                    const docRef = doc(collectionRef,user.user.uid )
-
-                    await setDoc(docRef, {
-                        ...Defaultuser,
+        //    console.log(user)
+            //    const collectionRef = collection(database,'users' )
+               const docRef = doc(database,'users',userCredentials.user.uid )
+                 await setDoc(docRef, {  
                              UserDetails:{
                                  ...Defaultuser.UserDetails,
                                 name: fullname,
                                 email: email,
-                                // createdOn: new Date()
-                             }
+                                createdOn: new Date(),
+                                databaseCreated: false
+                             },
                     })
 
 
+           }
+                    // console.log(user, 'in user.user')
+
+                    // // console.log(docRef, 'in docRef.user')
+
+                    // await setDoc(docRef, {
+                    //     ...Defaultuser,
+                    //          UserDetails:{
+                    //              ...Defaultuser.UserDetails,
+                    //             name: fullname,
+                    //             email: email,
+                    //             createdOn: new Date()
+                    //          }
+                    // })
+
+
                 }
-         }
+         
+            catch(err){
+                        console.log(err.massage, '1-here')
 
+                        throw new Error(err.message)
+                    }
 
+                }
+            )
 
-         return {
-             uId:user.user.uid, fullname, email 
-        }
+            export const checkDatabase = createAsyncThunk('user/checkDatabase', async (params, ThunkApi)=>{
+                try{
 
-            
+                    const {uId} = params
 
-        }catch(err){
-            console.log(err.massage, '1-here')
+                    const collectionRef = collection(database,'users' )
 
-            throw new Error(err.message)
-        }
+                    const docRef = doc(collectionRef,uId )
+                    const userData = await getDoc
+                    (docRef)
 
-    }
-)
+                    console.log(userData.data())
+
+                    const userCredentials = userData.data()
+
+                    if(!userCredentials.UserDetails.databaseCreated){
+                        await setDoc(docRef, {
+                            ...Defaultuser,    
+                            UserDetails:{
+                                ...userCredentials.UserDetails,
+                                databaseCreated: true,
+                            },
+                        })
+
+                        return
+                    }else if(userCredentials.UserDetails.databaseCreated){
+                            return
+                    }
+
+                    
+
+                }catch(err){
+                    throw new Error(err.message)  
+                }
+            })
+
 
 
 export const createUserDatabase = createAsyncThunk('user/createDatabase', async (params, thunkAPI)=>{
@@ -158,9 +199,16 @@ const userSlice = createSlice({
         logOut:(state, action)=>{
             state.loggedIn = false
             state.signedIn = false
-            state.userFileCreation.userFileCreated = false
+            // state.userFileCreation.userFileCreated = false
 
 
+        },
+        setUserCreated: (state, action)=>{
+            state.userCreated = false
+        },
+
+        addUserId: (state, action)=>{
+            state.uId = action.payload
         }
     },
 
@@ -194,12 +242,16 @@ const userSlice = createSlice({
 
         builder.addCase(userSignUp.fulfilled, (state, action)=>{
                 state.loading = false
-                state.signedIn = true
-                state.userFileCreation.userFileCreated =  true
-                state.uId = action.payload.uId
-                state.fullname = action.payload.fullname
-                state.email = action.payload.email
+                // state.signedIn = true
+                state.userCreated = true
+
+                // state.userFileCreation.userFileCreated =  true
+                // state.uId = action.payload.uId
+                // state.fullname = action.payload.fullname
+                // state.email = action.payload.email
                 state.error = null
+                // console.log('fufilled')
+                // console.log(state.uId)
         });
         
         builder.addCase(userSignUp.rejected, (state, action)=>{
@@ -227,9 +279,33 @@ const userSlice = createSlice({
             state.error = action.error.message.split(' ').slice(1).join(' ')
     });
 
+    
+
+        // checking Database documents for users
+
+        builder.addCase(checkDatabase.pending, (state, action)=>{
+            state.checkDatabaseLoading = true
+            state.error = null
+
+    });
+
+    builder.addCase(checkDatabase.fulfilled, (state, action)=>{
+        state.checkDatabaseLoading = false
+        state.isDatabase = true
+        state = true
+          
+    });
+    
+    builder.addCase(checkDatabase.rejected, (state, action)=>{
+        state.checkDatabaseLoading = false
+            state.error = action.error.message.split(' ').slice(1).join(' ')
+    });
+
+
+
 
     }
 })
 
 export default userSlice.reducer
-export const { updateUserDetails, login, logOut} = userSlice.actions
+export const { updateUserDetails, login, logOut, addUserId, setUserCreated} = userSlice.actions

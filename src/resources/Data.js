@@ -33,10 +33,7 @@ export const PieData = [
 
 
  export const Defaultuser = {
-    UserDetails:{
-        name: '',
-        email:''
-    },
+  
 
     
     expenses:{

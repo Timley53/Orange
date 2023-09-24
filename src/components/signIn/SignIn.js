@@ -2,12 +2,16 @@ import React, { useState } from 'react'
 import SignUp from './SignUp'
 import {FaUserAlt} from 'react-icons/fa'
 import Login from './login'
+import { useDispatch } from 'react-redux'
+import { setUserCreated } from '../../store/user/userSlice'
+import { Outlet } from 'react-router-dom'
 // Login
 
 function SignIn() {
 
 
     const [sign, setSignIn] = useState(true)
+    const dispatch = useDispatch()
     
 
 
@@ -50,19 +54,22 @@ function SignIn() {
     className={`w-[50%] rounded font-bold  ${!sign ? 'border-b-4 border-b-orange-600': ''}`}> Sign up</button>
 </div> */}
 
-{sign && <div className='w-[50%] self-center text-center my-2'>
+{/* {sign && <div className='w-[50%] self-center text-center my-2'>
     <p className='my-3'>Log in </p>
-    </div>}
+    </div>} */}
 
-    {!sign && <div className='w-[50%] self-center text-center my-2'>
+    {/* {!sign && <div className='w-[50%] self-center text-center my-2'>
     <p className='my-3'>Sign up </p>
-    </div> }
+    </div> } */}
 
 
-{ sign && <Login setSignIn={setSignIn}/> || !sign && <SignUp setSignIn={setSignIn}/>}
+{/* { sign && <Login /> }
+{ !sign && <SignUp />} */}
+
+<Outlet/>
 
 
-
+{/* 
 
 
 {sign && <div className='w-[40%] self-center my-4 md:w-[80%] text-center'>
@@ -76,20 +83,8 @@ function SignIn() {
     </small>
     </div>}
 
-{!sign && <div className='w-[40%] self-center my-4 md:w-[80%] flex justify-center items-center'>
-    <small className=''>
-        Have an account? <button className='inline underline'
-        onClick={()=>setSignIn(true)}
-        >
-               <span className='text-orange-500 mr-2'>
-               </span>
-                Sign in
-                </button>   
-                
-    </small>
-    </div>}
 
-            
+             */}
                 
             </aside>
         </div>
