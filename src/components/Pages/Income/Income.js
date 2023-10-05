@@ -28,7 +28,9 @@ useEffect(()=>{
 
 
   return (
-    <div className="w-[100%] h-[90%] border-2 flex  flex-col  md:mt-16">
+    <div className="w-[100%] h-[97%] md:h-[90%] flex  md:mt-16">
+
+      <main className='flex flex-col w-[80%] md:w-[100%]'>
 
       <div className="w-[100%] flex p-2  border-b-2">
       <NavLink to={'/dashboard/income'}  className={"mx-1 mr-3 flex items-center border-2 border-emerald-400 p-1 px-1 rounded-md text-emerald-500 hover:bg-emerald-400 hover:text-white transition-all"}>
@@ -57,20 +59,24 @@ onClick={()=> setShowSetbar(!showSidebar)}
 ><MdViewSidebar/></button>
       </div>
 
-      <section className='w-[100%] h-[100%]  flex'>
-
-      <main className={` ${showSidebar ? 'w-[80%] md:w-[100%] ': 'w-[80%] md:w-[100%]'} h-[100%] `}>
+      <main className={` ${showSidebar ? 'w-[100%] md:w-[100%] ': 'w-[100%] md:w-[100%]'} h-[100%] `}>
         <Outlet/>
         </main>
 
-        <div className={` ${showSidebar ? 'w-[20%]   md:w-[60%] sm:w-[60%] md:fixed top-14   md:right-0': 'w-[20%] md:hidden'} bg-emerald-200  md:bg-opacity-80 md:backdrop-blur-sm   md:h-[95%]`}>
+
+      </main>
+ 
+     
+
+     
+
+        <div className={` ${showSidebar ? ' w-[20%]   md:w-[60%] sm:w-[60%] md:fixed top-14   md:right-0': 'w-[20%] md:hidden'}   md:bg-opacity-80 md:backdrop-blur-sm h-[100%] bg-slate-100  md:h-[95%]`}>
 
         
 
         <Sidebar setShowSetbar={setShowSetbar} showSidebar={showSidebar} />
           
           </div> 
-      </section>
       
     </div> 
   )

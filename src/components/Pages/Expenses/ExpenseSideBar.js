@@ -73,7 +73,7 @@ function ExpenseSideBar({setShowSide,showSide}) {
       </div>
 
 
-<article className='flex flex-col items-end justify-end absolute left-2 bottom-8 p-1'>
+<article className='flex flex-col items-end justify-end absolute left-2 bottom-8 p-1 w-[100%] pr-8'>
 
 
       <NavLink to={'/dashboard/expenses'}  className={" p-2 flex items-center  text-sm hover:text-orange-600 md:hidden "}>

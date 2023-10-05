@@ -18,7 +18,7 @@ function HomeHistory() {
             <span>Last 5 Transaction</span>
 
 
-            <NavLink className={`text-sm text-orange-600 hover:text-gray-500 transition-all`}>View all</NavLink >
+            <NavLink to={'expenses'} className={`text-sm text-orange-600 hover:text-gray-500 transition-all`}>View all</NavLink >
         </header>
 
         <div className="transactions w-full flex flex-col overflow-y-scroll overflow-edit h-[400px]">

@@ -76,7 +76,7 @@ const userNameSplit = (name)=>{
           <div className={`fixed ${addNew ? 'h-auto w-auto transition-all':'h-[55px] w-[55px] items-end'} overflow-hidden right-12 flex flex-col bottom-10 sm:bottom-16 rounded-md bg-slate-100 backdrop-blur-md z-10`} >
 
       
-          <button className=' bg-emerald-500 text-white p-3 m-1 z-10   rounded-full text-2xl  hover:bg-transparent hover:text-emerald-500 transition duration-150 self-end' 
+          <button className=' bg-emerald-500 text-white p-3 m-1 z-10   rounded-full text-2xl transition duration-150 self-end' 
           onClick={()=>setAddNew(!addNew)}
           >
           <MdAdd/>

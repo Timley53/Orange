@@ -3,6 +3,8 @@ import { database } from "../../resources/firebase"
 import { doc, getDoc, setDoc } from "firebase/firestore"
 import { createDate, generateCompareID } from "../../resources/utils"
 
+// let database
+
 const initialState = {
     loading: false,
     userId: '',

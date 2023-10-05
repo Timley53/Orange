@@ -1,20 +1,30 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {chooseIcon, formatNumber} from '../../../../resources/utils'
 import { MdDelete, MdNotes } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteExpense } from '../../../../store/user/userQueries'
+import { ContextConfirm } from '../../../../resources/AllContext'
 
 
 function ExpenseArticle({date,id, title, value}) {
     const dispatch = useDispatch() 
     const userId = useSelector((state)=>state.userData?.DocumentId) 
+    const {payload, setPayload, confirm, setConfirm} = useContext(ContextConfirm)
 
   const deleteExpenseFxn = ()=>{
     
-    dispatch(deleteExpense({
-      userId,
-      id
-    }))
+    // dispatch(deleteExpense({
+    //   userId,
+    //   id
+    // }))
+    setPayload({
+      type: 'deleteExpense',
+      data: {
+        userId,
+        id
+      } 
+    })
+    setConfirm(true)
 
   }
   return (

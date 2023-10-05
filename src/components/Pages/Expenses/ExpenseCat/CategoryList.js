@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import CategoryArticle from '../ExpenseCatArticle'
 
 import {MdOutlineEmojiTransportation, MdOutlineFastfood, MdOutlineCable, MdLiveTv, MdOutlineLiveTv, MdSavings, MdDelete, MdEditNote} from 'react-icons/md'
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { calcExp, calcPercentage, formatNumber } from '../../../../resources/utils'
 import { ImCross } from 'react-icons/im'
 import { deleteCategories, editCategories } from '../../../../store/user/userQueries'
+import { ContextConfirm } from '../../../../resources/AllContext'
 
 const chooseIcon = (type)=>{
 
@@ -70,6 +71,8 @@ function CategoryEditSection({categoryObj, setCategoryObj}){
 const {budget,exp, id, name} = categoryObj
 console.log(id);
 const userId = useSelector((state)=> state.userData.DocumentId)
+const {payload, setPayload, confirm, setConfirm} = useContext(ContextConfirm)
+
 
 
 
@@ -85,11 +88,21 @@ const handleEditSubmit = ()=>{
 
     if(editbudget){
         
-        dispatch(editCategories({
-            userId,
-            BudgetId: id,
-            editbudget
-        }))
+        setPayload({
+            type: 'editCategories',
+            data: {
+                userId,
+                BudgetId: id,
+                editbudget
+            }
+        })
+        setConfirm(true)
+
+        // dispatch(editCategories({
+        //     userId,
+        //     BudgetId: id,
+        //     editbudget
+        // }))
 
     }
 }
@@ -140,7 +153,7 @@ const handleEditSubmit = ()=>{
 
 </div>
 
-    )
+ )
 }
 
 function ExcategoryArticle({budget,exp, id, name, setCategoryObj}){
@@ -149,14 +162,24 @@ function ExcategoryArticle({budget,exp, id, name, setCategoryObj}){
 
     const userId = useSelector((state)=> state.userData.DocumentId)
 
+    const {payload, setPayload, confirm, setConfirm} = useContext(ContextConfirm)
+
        const dispatch = useDispatch()
 
         function deleteCategoriesFxn(){
+            setPayload({
+                type: 'deleteExpCategory',
+                data: {
+                    userId,
+                    id
+                }
+            })
+            setConfirm(true)
              
-            dispatch(deleteCategories({
-                userId,
-                id
-            }))
+            // dispatch(deleteCategories({
+            //     userId,
+            //     id
+            // }))
 
         }
 

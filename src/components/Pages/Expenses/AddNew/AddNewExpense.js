@@ -47,7 +47,7 @@ const userId = useSelector(state => state.userData.DocumentId)
 
 
   return (
-    <div className='w-[80%] flex items-center flex-col sm:pb-16 '>
+    <div className='w-[80%] h-[100%] md:h-[80%] flex items-center flex-col sm:pb-16 '>
 
 
         <h1 className='text-base'>Add New Expense</h1>

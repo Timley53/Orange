@@ -15,8 +15,8 @@ import { listenToUserData, updateData } from '../store/user/userDataSlice'
  import { database } from '../resources/firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 import LoadingView from './Pages/Expenses/LoadingView'
-
-
+import { Confirmation } from './Confirmation'
+import { ContextConfirm } from '../resources/AllContext'
 
 //================
 function Dashboard() {
@@ -60,6 +60,9 @@ function Dashboard() {
   // })
   // console.log(isAuthorized);
 
+
+  //uncomment
+// /*
    useEffect(()=>{
     onAuthStateChanged(auth,(user)=>{
       if(!user || !isAuthorized){
@@ -86,11 +89,15 @@ function Dashboard() {
      }
    },[docID])
 
+// */
 
+
+// /*
 
    ///live update effect
    useEffect(()=>{
 
+    
     const docRef = doc(database,'users',docID)
     
         const unsubscribe = onSnapshot(docRef,(snapShot) => {
@@ -109,6 +116,7 @@ function Dashboard() {
 
    },[])
 
+  //  */
 
   //  console.log('loading', userDataLoading);
   //  console.log(userData);
@@ -118,11 +126,16 @@ function Dashboard() {
   // signOutUser()
 
 
+ const [payload, setPayload] = useState(null)
+ const [confirm, setConfirm] = useState(false)
 
   return isAuthorized ? (
+    <ContextConfirm.Provider value={{payload, setPayload, confirm, setConfirm}}>
+
+      
     <div className='w-screen h-screen flex m-0 relative'>
 
-
+{ confirm && <Confirmation/>}
   
   
     {queriesLoading && <LoadingView/>}
@@ -156,6 +169,8 @@ function Dashboard() {
 
 
     </div>
+    </ContextConfirm.Provider>
+
   ) : (
     <div>
       <h2>Please wait...</h2>

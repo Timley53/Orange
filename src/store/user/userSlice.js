@@ -4,6 +4,8 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import { addDoc, collection, doc, getDoc, setDoc} from "firebase/firestore";
 import { Defaultuser } from "../../resources/Data";
 
+// let database, auth
+
 const initialState = {
     loading: false,
     loggedIn: false,

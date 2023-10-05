@@ -3,7 +3,7 @@ import { collection, doc, getDoc, getDocs, onSnapshot, setDoc, updateDoc } from 
 import { database } from "../../resources/firebase"
 // import { setUnsubscribe, updateData } from "./userDataListen"
 
-
+// const database;
 
 const initialState = {
     loading: false,

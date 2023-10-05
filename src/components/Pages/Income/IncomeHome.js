@@ -12,6 +12,7 @@ import {ImCross} from 'react-icons/im'
 import { BsFilter } from 'react-icons/bs'
 import { GiBroom } from 'react-icons/gi'
 import { deleteIncome } from '../../../store/user/userQueries'
+import { ContextConfirm } from '../../../resources/AllContext'
 
 export const IncomeHomeContext = createContext(null)
 
@@ -64,7 +65,7 @@ const filteredNumberOfPages = Math.ceil(showFiltered.length / postPerpage)
             <BsFilter/>
         </button>
 
-        <IncomeFilter />
+        <IncomeFilter /> 
 
     </div>
     </IncomeHomeContext.Provider>
@@ -72,7 +73,6 @@ const filteredNumberOfPages = Math.ceil(showFiltered.length / postPerpage)
 }
 
 export default IncomeHome
-
 
 
 export function IncomeFilter({}) {
@@ -174,7 +174,7 @@ export function IncomeFilter({}) {
     }
 
     return(
-        <form className={`w-[40%] ${showFilter ? "flex flex-col sm:bg-white left-0 top-16    sm:bg-opacity-50 sm:backdrop-blur-md  sm:fixed sm:h-[100%] sm:w-[100%]":"flex flex-col sm:hidden"} sm:w-[100%]  p-2 text-sm items-center`} onSubmit={handleSubmitfilter}>
+        <form className={`w-[30%]  ${showFilter ? "flex flex-col sm:bg-white left-0 top-16    sm:bg-opacity-50 sm:backdrop-blur-md  sm:fixed sm:h-[100%] sm:w-[100%]":"flex flex-col sm:hidden"} sm:w-[100%]  p-2 text-sm items-center`} onSubmit={handleSubmitfilter}>
 
 <span className='self-end hidden mt-14 mx-3  sm:flex p-1 absolute  text-xl  text-black -top-9 right-1 ' 
         onClick={(e)=>setShowFilter(false)}
@@ -288,7 +288,7 @@ function IncomeHistory(){
 
 
     return(
-      <div className={`h-[100%]  w-[60%]  flex flex-col sm:w-[100%]`}>
+      <div className={`h-[100%]  w-[70%]  flex flex-col sm:w-[100%]`}>
 
         {
           (!showFiltered && allIncome?.length > 0 && <div className="w-[100%] h-[90%] flex flex-col ">
@@ -341,13 +341,24 @@ function IncomeHistory(){
   function IncomeArticle({amount, title, id, date}){
 
     const userId = useSelector((state)=> state.userData?.DocumentId)
+    const {payload, setPayload, confirm, setConfirm} = useContext(ContextConfirm)
+
     const dispatch = useDispatch()
 
     const deleteItem = ()=>{
-      dispatch(deleteIncome({
-        userId,
+  setPayload({
+    type: 'deleteIncome',
+    data: {
+     userId,
         id
-      }))
+    }
+  })
+  setConfirm(true)
+
+      // dispatch(deleteIncome({
+      //   userId,
+      //   id
+      // }))
     }
 
 

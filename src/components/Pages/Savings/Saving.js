@@ -8,6 +8,7 @@ import { calcAllSavings, calcPercentage, formatNumber, reduceGoalsCurr } from '.
 import { GiPiggyBank } from 'react-icons/gi'
 import {ImCross} from 'react-icons/im'
 import { deleteSavingsCurrent, deleteSavingsPlan, editSavingsPlan } from '../../../store/user/userQueries'
+import { ContextConfirm } from '../../../resources/AllContext'
 
 const SavingsContext = createContext(null)
 
@@ -168,6 +169,8 @@ export function PlanDetails({ }){
   const {showPlanDetails, setShowPlanDetails, planDetails, setPlanDetails} = useContext(SavingsContext)
   const dispatch = useDispatch()
   const userId = useSelector((state)=> state.userData.DocumentId)
+  const {payload, setPayload, confirm, setConfirm} = useContext(ContextConfirm)
+
 
 
   const {title,planId,target,current} = planDetails
@@ -195,13 +198,24 @@ const prev = ()=>{
   setcurrentPage(currentPage - 1)
 }
 
+
 /////////delete fxn
 function deleteFxn(){
 
-  dispatch(deleteSavingsPlan({
-    userId,
-    planId
-  }))
+  setPayload({
+    type: 'deleteSavingsPlan',
+    data: {
+      userId,
+      planId
+    }
+  })
+  setConfirm(true)
+  
+
+  // dispatch(deleteSavingsPlan({
+  //   userId,
+  //   planId
+  // }))
 
   setShowPlanDetails(false)
   setPlanDetails(null)
@@ -214,11 +228,22 @@ const [editPlan, setEditPlan] = useState(false)
 // console.log(!editPlan && current.length < 1)
 
 const handleCurrentDeleteFxn = (planId,id, userId)=>{
-  dispatch(deleteSavingsCurrent({
-   planId, 
-   currentId: id,
-   userId
-  }))
+
+  setPayload({
+    type: 'deleteSavingsCurrent',
+    data: {
+      planId, 
+      currentId: id,
+      userId
+    }
+  })
+  setConfirm(true)
+
+  // dispatch(deleteSavingsCurrent({
+  //  planId, 
+  //  currentId: id,
+  //  userId
+  // }))
   setShowPlanDetails(false)
   setPlanDetails(null)
  }
@@ -303,6 +328,7 @@ function SavingDetailsArticle({amount, date, id, planId, handleCurrentDeleteFxn}
  
   const dispatch = useDispatch()
   const userId = useSelector((state)=> state.userData.DocumentId)
+  
 
  
 
@@ -338,21 +364,34 @@ function EditPlanForm({title,planId,target,current}){
   const [inputError, setInputError] = useState(false)
 
   const userId = useSelector((state)=> state.userData.DocumentId)
+  const {payload, setPayload, confirm, setConfirm} = useContext(ContextConfirm)
+
 
   const dispatch = useDispatch()
 
   function editPlanFxn(e){
     e.preventDefault()
 
+    
     if(!newTarget){
       setInputError(true)
       return
     }
-    dispatch(editSavingsPlan({
-      userId,
-      planId,
-      newTarget
-    }))
+    setPayload({
+      type: 'editSavingsPlan', 
+      data: {
+        userId,
+        planId,
+        newTarget
+      }
+    })
+setConfirm(true)
+
+    // dispatch(editSavingsPlan({
+    //   userId,
+    //   planId,
+    //   newTarget
+    // }))
   }
 
 
